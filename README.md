@@ -17,6 +17,9 @@ fiquem à vontade (quem for revisar) pra ler e questionar tudo.
 	* mvp sem testes, sem validações, sem infra, em fsharp  
 	... acho que já deu pra perceber o fluxo das intenções  
 	 
+- nao vou trabalhar com branches nesse repo. pra nao acharem que tenho maus costumes:
+nao gosto de master/main/prod + development + staging (multibranching) (muito trabalho, git flow é passado)
+gosto de uma branch pra prod + branches de desenvolvimento =) (github flow é massa)
 
 # requisitos
 Incluir um novo churrasco com data, descrição e observações adicionais;  
