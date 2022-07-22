@@ -21,6 +21,11 @@ fiquem à vontade (quem for revisar) pra ler e questionar tudo.
 nao gosto de master/main/prod + development + staging (multibranching) (muito trabalho, git flow é passado)
 gosto de uma branch pra prod + branches de desenvolvimento =) (github flow é massa)
 
+- talvez eu tenha adicionado um pouco de overengineering nos Dtos, fazendo eles calcularem coisas pro front que
+nao precisavam MAS: eu sigo a ideia que o front tem que ser o mais rápido possível e o back tem que entregar as 
+coisas o mais mastigado possível. mais pra frente eu volto nessa decisão e reviso
+(aqui me refiro as props q são lambdas =>)
+
 # requisitos
 Incluir um novo churrasco com data, descrição e observações adicionais;  
 Adicionar e remover participantes (colocando o seu valor de contribuição);  
@@ -48,5 +53,3 @@ POST api/barbeques
 POST api/barbeques/{id}/persons  
 DELETE api/barbeques/{barbequeId}/persons/{personId}  
 ```
-
-valor default com e sem bebida pra pessoa que está se cadastrando pra um churrasco...  
