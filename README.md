@@ -23,8 +23,18 @@ gosto de uma branch pra prod + branches de desenvolvimento =) (github flow é mas
 
 - talvez eu tenha adicionado um pouco de overengineering nos Dtos, fazendo eles calcularem coisas pro front que
 nao precisavam MAS: eu sigo a ideia que o front tem que ser o mais rápido possível e o back tem que entregar as 
-coisas o mais mastigado possível. mais pra frente eu volto nessa decisão e reviso
+coisas o mais mastigado possível (pelo seu poder de performance). mais pra frente eu volto nessa decisão e reviso
 (aqui me refiro as props q são lambdas =>)
+
+- nota mental: minimal api é horrível.
+
+- é engraçado que o código de desafio técnicos é sempre muito diferente de código da vida real.
+sobre a divisão de pastas, pra desafios técnicos eu preferiria fazer tudo na controller, mas opto por services/repositories por passar uma impressão melhor.
+em projetos reais, eu prefiro queries/commands nos repositórios (se necessário), pois acho a organização melhor (e escala melhor) =)
+... também, eu sempre fico em dúvida: abusar de libs pra ir mais rápido ou fazer tudo na mão em desafios pq eu nao preciso de libs? 
+aqui, vou começar fazendo as coisas na mão (translators e validators).
+
+- nota: estou *tentando* deixar os commits organizados. o histórico poderá ser acompanhado por lá.
 
 # requisitos
 Incluir um novo churrasco com data, descrição e observações adicionais;  

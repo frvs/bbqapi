@@ -2,12 +2,13 @@
 {
     public class PersonDto
     {
-        public string FullName { get; set; } = "Wait";
-        public string NameFormatted => FormatName(FullName);
-        public decimal TotalMoney => FoodsMoney + DrinksMoney;
+        public long Id { get; set; }
+        public string Name { get; set; } = "Wait";
         public decimal FoodsMoney { get; set; } = 20;
         public decimal DrinksMoney { get; set; } = 0;
-
+        public string NameFormatted => FormatName(Name);
+        public decimal TotalMoney => FoodsMoney + DrinksMoney;
+        
         private string FormatName(string name)
         {
             if(string.IsNullOrEmpty(name))
