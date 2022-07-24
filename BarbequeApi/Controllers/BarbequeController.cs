@@ -17,7 +17,7 @@ namespace BarbequeApi.Controllers
         }
 
         [HttpGet("{barbequeId}")]
-        public async Task<IActionResult> Get([FromQuery] string barbequeId)
+        public async Task<IActionResult> Get([FromRoute] string barbequeId)
         {
             var barbequeDto = service.Get(long.Parse(barbequeId));
 

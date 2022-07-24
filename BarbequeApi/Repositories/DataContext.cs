@@ -29,16 +29,6 @@ namespace BarbequeApi.Repositories
             modelBuilder.Entity<Person>()
                 .Property(x => x.Id)
                 .ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<Person>()
-                .HasData(new Person { Id = 1, Name = "Lucas", DrinksMoney = 50, FoodsMoney = 20, BarbequeId = 1 });
-            
-            modelBuilder.Entity<Barbeque>()
-                .HasData(new Barbeque { Id = 1, Title = "Comemoração", Date = DateTime.Now });
-
-            //modelBuilder.Entity<Barbeque>()
-            //    .HasMany<Person>()
-            //    .WithOne(person => person.Barbeque);
         }
 
         public DbSet<Barbeque> Barbeques { get; set; }
