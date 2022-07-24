@@ -1,6 +1,7 @@
 ﻿using BarbequeApi.Models.Dtos;
 using BarbequeApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace BarbequeApi.Controllers
 {
@@ -16,9 +17,9 @@ namespace BarbequeApi.Controllers
         }
 
         [HttpGet("{barbequeId}")]
-        public async Task<IActionResult> Get([FromQuery] long barbequeId)
+        public async Task<IActionResult> Get([FromQuery] string barbequeId)
         {
-            var barbequeDto = service.Get(barbequeId);
+            var barbequeDto = service.Get(long.Parse(barbequeId));
 
             return Ok(barbequeDto);
         }

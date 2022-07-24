@@ -1,5 +1,6 @@
 ﻿using BarbequeApi.Models.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace BarbequeApi.Controllers
 {

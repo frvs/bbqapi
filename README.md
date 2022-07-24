@@ -18,7 +18,7 @@ fiquem à vontade (quem for revisar) pra ler e questionar tudo.
 	... acho que já deu pra perceber o fluxo das intenções  
 	 
 - nao vou trabalhar com branches nesse repo. pra nao acharem que tenho maus costumes:
-nao gosto de master/main/prod + development + staging (multibranching) (muito trabalho, git flow é passado)
+nao gosto de master/main/prod + development + staging (multibranching) (muito trabalho, git flow é chato)
 gosto de uma branch pra prod + branches de desenvolvimento =) (github flow é massa)
 
 - talvez eu tenha adicionado um pouco de overengineering nos Dtos, fazendo eles calcularem coisas pro front que
@@ -35,6 +35,9 @@ em projetos reais, eu prefiro queries/commands nos repositórios (se necessário),
 aqui, vou começar fazendo as coisas na mão (translators e validators).
 
 - nota: estou *tentando* deixar os commits organizados. o histórico poderá ser acompanhado por lá.
+
+- estou optando pelo banco inmemory por enquanto. talvez depois eu coloque sqlserver num container ou algo assim.
+- efcore faz os relacionamentos 1:n automagicamente, ef6 precisa do onconfiguring
 
 # requisitos
 Incluir um novo churrasco com data, descrição e observações adicionais;  

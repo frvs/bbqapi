@@ -1,5 +1,6 @@
 ﻿using BarbequeApi.Models;
 using BarbequeApi.Models.Dtos;
+using System.Collections.Generic;
 
 namespace BarbequeApi
 {
@@ -46,6 +47,7 @@ namespace BarbequeApi
         {
             var barbequeDto = new BarbequeDto
             {
+                Id = barbeque.Id,
                 Title = barbeque.Title,
                 Date = barbeque.Date,
                 Persons = ToPersonsDto(barbeque.Persons)
@@ -70,6 +72,7 @@ namespace BarbequeApi
         {
             var personDto = new PersonDto
             {
+                Id = person.Id,
                 Name = person.Name,
                 FoodsMoney = person.FoodsMoney,
                 DrinksMoney = person.DrinksMoney

@@ -1,4 +1,6 @@
 ﻿using BarbequeApi.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace BarbequeApi.Repositories
 {
@@ -10,14 +12,23 @@ namespace BarbequeApi.Repositories
 
     public class BarbequeRepository : IBarbequeRepository
     {
+        private readonly DataContext context;
+
+        public BarbequeRepository(DataContext context)
+        {
+            this.context = context;
+        }
+
         public Barbeque Get(long barbequeId)
         {
-            throw new NotImplementedException();
+            return context.Barbeques.Include(b => b.Persons).FirstOrDefault(barbeque => barbeque.Id == barbequeId);
         }
 
         public bool Save(Barbeque barbeque)
         {
-            throw new NotImplementedException();
+            context.Barbeques.Add(barbeque);
+
+            return context.SaveChanges() > 0;
         }
     }
 }

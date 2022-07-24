@@ -6,5 +6,8 @@
         public string Name { get; set; }
         public decimal FoodsMoney { get; set; }
         public decimal DrinksMoney { get; set; }
+
+        public long BarbequeId { get; set; }
+        public Barbeque Barbeque { get; set; }
     }
 }

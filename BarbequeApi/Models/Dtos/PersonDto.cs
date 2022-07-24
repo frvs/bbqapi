@@ -3,9 +3,9 @@
     public class PersonDto
     {
         public long Id { get; set; }
-        public string Name { get; set; } = "Wait";
-        public decimal FoodsMoney { get; set; } = 20;
-        public decimal DrinksMoney { get; set; } = 0;
+        public string Name { get; set; }
+        public decimal FoodsMoney { get; set; }
+        public decimal DrinksMoney { get; set; }
         public string NameFormatted => FormatName(Name);
         public decimal TotalMoney => FoodsMoney + DrinksMoney;
         
@@ -18,7 +18,7 @@
 
             if(!name.Contains(" "))
             {
-                return name.Substring(0, 1).ToUpper() + name.Substring(1, name.Length);
+                return name.Substring(0, 1).ToUpper() + name.Substring(1, name.Length - 1);
             }
 
             var indexOfFirstSpaceSeparator = name.IndexOf(" ");

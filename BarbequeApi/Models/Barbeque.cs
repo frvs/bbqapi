@@ -1,4 +1,7 @@
-﻿namespace BarbequeApi.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace BarbequeApi.Models
 {
     public class Barbeque
     {
