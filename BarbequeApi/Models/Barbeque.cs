@@ -9,5 +9,6 @@ namespace BarbequeApi.Models
         public string Title { get; set; }
         public DateTime Date { get; set; }
         public ICollection<Person> Persons { get; set; }
+        public string? Notes { get; set; }
     }
 }

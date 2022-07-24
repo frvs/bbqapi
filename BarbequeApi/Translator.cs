@@ -12,7 +12,8 @@ namespace BarbequeApi
             {
                 Title = barbequeDto.Title,
                 Date = barbequeDto.Date,
-                Persons = ToPersons(barbequeDto.Persons)
+                Persons = ToPersons(barbequeDto.Persons), 
+                Notes = barbequeDto.Notes
             };
 
             return barbeque;
@@ -50,7 +51,8 @@ namespace BarbequeApi
                 Id = barbeque.Id,
                 Title = barbeque.Title,
                 Date = barbeque.Date,
-                Persons = ToPersonsDto(barbeque.Persons)
+                Persons = ToPersonsDto(barbeque.Persons), 
+                Notes = barbeque.Notes
             };
 
             return barbequeDto;
