@@ -46,6 +46,8 @@ agora nas validacoes eu posso usar o fluent, flunt ou ir na mão.
 pros testes, primeiro integração e depois unidade.
 além disso, está no roadmap deploy (heroku ou azure) e trocar o banco de inmemory pra sqlite ou sqlserver
 
+- fiz primeiro deploy, amanhã faço os testes. terça validações e quarta troco o banco. será?
+
 # requisitos
 Incluir um novo churrasco com data, descrição e observações adicionais;  
 Adicionar e remover participantes (colocando o seu valor de contribuição);  
