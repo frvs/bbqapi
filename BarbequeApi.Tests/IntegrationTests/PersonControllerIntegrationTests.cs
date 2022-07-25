@@ -2,6 +2,7 @@
 using BarbequeApi.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -91,15 +92,14 @@ namespace BarbequeApi.Tests.IntegrationTests
             Assert.NotNull(barbeque);
             Assert.True(barbeque.Persons.Count > 2);
             var desiredPerson = barbeque.Persons.FirstOrDefault(p => p.Name == personName2);
+            var mediumDrinksMoney = Math.Floor(barbeque.Persons.Select(p => p.DrinksMoney).Sum() / barbeque.Persons.Count());
+            var mediumFoodsMoney = Math.Floor(barbeque.Persons.Select(p => p.FoodsMoney).Sum() / barbeque.Persons.Count());
             Assert.NotNull(desiredPerson);
             Assert.Equal(barbeque.Id, desiredPerson.BarbequeId);
             Assert.Equal(personDto2.Name, desiredPerson.Name);
-            Assert.Equal(35, desiredPerson.DrinksMoney); 
-            Assert.Equal(20, desiredPerson.FoodsMoney); 
-            // seededPerson.DrinksMoney=50; person1.DrinksMoney=20; (50 + 20) / 2 (count) = 35
-            // seededPerson.FoodsMoney=20; person1.FoodsMoney=20; (20 + 20) / 2 = 20
+            Assert.Equal(mediumFoodsMoney, desiredPerson.DrinksMoney); 
+            Assert.Equal(mediumDrinksMoney, desiredPerson.FoodsMoney); 
         }
-
 
         [Fact]
         public async Task DeletePersonForGivenBarbequeSuccess()
@@ -134,25 +134,21 @@ namespace BarbequeApi.Tests.IntegrationTests
         [Fact]
         public async Task TryToAddPersonToNonExistingBarbequeFailure()
         {
-
         }
 
         [Fact]
         public async Task TryToAddExistingPersonToExistingBarbequeFailure() // pretends to be an update via POST
         {
-
         }
 
         [Fact]
         public async Task TryToDeleteNonExistingPersonToExistingBarbequeFailure()
         {
-
         }
 
         [Fact]
         public async Task TryToDeleteExistingPersonToExistingBarbequeFailure()
         {
-
         }
 
         private void AssertExpectedPersonEqualsToSaved(Person expectedPerson, Person desiredPerson)
