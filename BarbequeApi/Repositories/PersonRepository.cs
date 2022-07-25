@@ -25,7 +25,7 @@ namespace BarbequeApi.Repositories
                 return false;
             }
 
-            barbeque.Persons.Remove(person);
+            context.Persons.Remove(person);
 
             return context.SaveChanges() > 0;
         }

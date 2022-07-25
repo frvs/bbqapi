@@ -1,6 +1,5 @@
 ﻿using BarbequeApi.Models;
 using BarbequeApi.Models.Dtos;
-using BarbequeApi.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System;
