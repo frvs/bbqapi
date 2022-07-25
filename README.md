@@ -3,6 +3,8 @@ olá! eu sou o lucas, estou fazendo uma api pra empresa trincada mais legal do pa
 vou documentando aqui o pensamento, as decisões e tudo mais que eu achar relevante.  
 fiquem à vontade (quem for revisar) pra ler e questionar tudo.  
 
+link do swagger: https://bbqapi.herokuapp.com/swagger/index.html \o/  
+
 # decisoes técnicas
 - código em inglês, docs e eventuais comentários (serão removidos até o final) em pt-br, commits em inglês  
 -- não sei se quem vai revisar sabe/prefere em inglês a doc, por exemplo. eu preferia em inglês.  
@@ -38,6 +40,11 @@ aqui, vou começar fazendo as coisas na mão (translators e validators).
 
 - estou optando pelo banco inmemory por enquanto. talvez depois eu coloque sqlserver num container ou algo assim.
 - efcore faz os relacionamentos 1:n automagicamente, ef6 precisa do onconfiguring
+
+- yay! terminei o mvp. nesse momento eu optei por não tratar os erros adequadamente, só fazer funcionar.
+agora nas validacoes eu posso usar o fluent, flunt ou ir na mão.
+pros testes, primeiro integração e depois unidade.
+além disso, está no roadmap deploy (heroku ou azure) e trocar o banco de inmemory pra sqlite ou sqlserver
 
 # requisitos
 Incluir um novo churrasco com data, descrição e observações adicionais;  
