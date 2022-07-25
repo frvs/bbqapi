@@ -82,6 +82,10 @@ namespace BarbequeApi.Tests.IntegrationTests
             _ = await HttpClient.PostAsync(
                 $"api/barbeques/{barbequeId}/persons",
                 new StringContent(JToken.FromObject(personDto1).ToString(), Encoding.UTF8, "application/json"));
+            var barbequeBeforeSecondPerson = dbContext.Barbeques.Include(b => b.Persons).FirstOrDefault(b => b.Id == barbequeId);
+            var mediumDrinksMoney = Math.Floor(barbequeBeforeSecondPerson.Persons.Select(p => p.DrinksMoney).Sum() / barbequeBeforeSecondPerson.Persons.Count());
+            var mediumFoodsMoney = Math.Floor(barbequeBeforeSecondPerson.Persons.Select(p => p.FoodsMoney).Sum() / barbequeBeforeSecondPerson.Persons.Count());
+
             var httpResponse = await HttpClient.PostAsync(
                 $"api/barbeques/{barbequeId}/persons",
                 new StringContent(JToken.FromObject(personDto2).ToString(), Encoding.UTF8, "application/json"));
@@ -92,13 +96,11 @@ namespace BarbequeApi.Tests.IntegrationTests
             Assert.NotNull(barbeque);
             Assert.True(barbeque.Persons.Count > 2);
             var desiredPerson = barbeque.Persons.FirstOrDefault(p => p.Name == personName2);
-            var mediumDrinksMoney = Math.Floor(barbeque.Persons.Select(p => p.DrinksMoney).Sum() / barbeque.Persons.Count());
-            var mediumFoodsMoney = Math.Floor(barbeque.Persons.Select(p => p.FoodsMoney).Sum() / barbeque.Persons.Count());
             Assert.NotNull(desiredPerson);
             Assert.Equal(barbeque.Id, desiredPerson.BarbequeId);
             Assert.Equal(personDto2.Name, desiredPerson.Name);
-            Assert.Equal(mediumFoodsMoney, desiredPerson.DrinksMoney); 
-            Assert.Equal(mediumDrinksMoney, desiredPerson.FoodsMoney); 
+            Assert.Equal(mediumFoodsMoney, desiredPerson.FoodsMoney);
+            Assert.Equal(mediumDrinksMoney, desiredPerson.DrinksMoney);
         }
 
         [Fact]
@@ -116,7 +118,6 @@ namespace BarbequeApi.Tests.IntegrationTests
                 Assert.NotNull(existingPerson);
             }
             
-
             // Act
             var httpResponse = await HttpClient.DeleteAsync($"api/barbeques/{barbequeId}/persons/{personId}");
 
