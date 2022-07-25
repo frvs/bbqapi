@@ -72,3 +72,5 @@ void Seed()
         dataContext.SaveChanges();
     }
 }
+
+public partial class Program { }

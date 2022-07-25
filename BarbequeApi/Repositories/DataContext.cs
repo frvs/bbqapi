@@ -1,6 +1,5 @@
 ﻿using BarbequeApi.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace BarbequeApi.Repositories
 {
@@ -11,7 +10,7 @@ namespace BarbequeApi.Repositories
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        { 
+        {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,6 +28,11 @@ namespace BarbequeApi.Repositories
             modelBuilder.Entity<Person>()
                 .Property(x => x.Id)
                 .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Person>()
+                .HasOne(s => s.Barbeque)
+                .WithMany(g => g.Persons)
+                .HasForeignKey(s => s.BarbequeId);
         }
 
         public DbSet<Barbeque> Barbeques { get; set; }

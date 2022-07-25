@@ -44,7 +44,8 @@ namespace BarbequeApi
                 Id = personDto.Id,
                 Name = personDto.Name,
                 FoodsMoney = personDto.FoodsMoney,
-                DrinksMoney = personDto.DrinksMoney
+                DrinksMoney = personDto.DrinksMoney, 
+                BarbequeId = personDto.BarbequeId
             };
 
             return person;
@@ -71,20 +72,21 @@ namespace BarbequeApi
 
             foreach (var person in persons)
             {
-                personsDto.Add(ToPerson(person));
+                personsDto.Add(ToPersonDto(person));
             }
 
             return personsDto;
         }
 
-        private static PersonDto ToPerson(Person person)
+        private static PersonDto ToPersonDto(Person person)
         {
             var personDto = new PersonDto
             {
                 Id = person.Id,
                 Name = person.Name,
                 FoodsMoney = person.FoodsMoney,
-                DrinksMoney = person.DrinksMoney
+                DrinksMoney = person.DrinksMoney, 
+                BarbequeId = person.BarbequeId     
             };
 
             return personDto;

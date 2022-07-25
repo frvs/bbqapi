@@ -6,9 +6,12 @@
         public string Name { get; set; }
         public decimal FoodsMoney { get; set; }
         public decimal DrinksMoney { get; set; }
+        
         public string NameFormatted => FormatName(Name);
         public decimal TotalMoney => FoodsMoney + DrinksMoney;
-        
+
+        public long BarbequeId { get; set; }
+
         private string FormatName(string name)
         {
             if(string.IsNullOrEmpty(name))
