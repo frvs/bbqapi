@@ -1,26 +1,35 @@
 ﻿using BarbequeApi.Models.Dtos;
+using BarbequeApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace BarbequeApi.Controllers
 {
     [ApiController]
-    [Route("api/barbeques/{barbequeId}/persons")]
+    [Route("api/barbeques")]
     public class PersonController : Controller
     {
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] PersonDto personDto)
+        private readonly IPersonService service;
+
+        public PersonController(IPersonService service)
         {
+            this.service = service;
+        }
+
+        [HttpPost("{barbequeId}/persons")]
+        public async Task<IActionResult> Create([FromRoute] string barbequeId, [FromBody] PersonDto personDto)
+        {
+            service.Create(long.Parse(barbequeId), personDto);
 
             return NoContent();
         }
 
-        [HttpDelete("{personId}")]
-        public async Task<IActionResult> Delete([FromQuery] long personId)
+        [HttpDelete("{barbequeId}/persons/{personId}")]
+        public async Task<IActionResult> Delete([FromRoute] string barbequeId, [FromRoute] string personId)
         {
-            var personDto = new PersonDto();
+            service.Delete(long.Parse(barbequeId), long.Parse(personId));
 
-            return Ok(personDto);
+            return NoContent();
         }
     }
 }

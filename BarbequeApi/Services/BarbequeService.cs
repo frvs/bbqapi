@@ -1,6 +1,7 @@
 ﻿using BarbequeApi.Models;
 using BarbequeApi.Models.Dtos;
 using BarbequeApi.Repositories;
+using System;
 
 namespace BarbequeApi.Services
 {
@@ -24,12 +25,13 @@ namespace BarbequeApi.Services
             // Validator.Validate(barbequeDto);? // should I call/create it?
 
             var barbeque = Translator.ToBarbeque(barbequeDto);
+            FillDefaultValuesIfNecessary(barbeque);
 
             bool successful = barbequeRepository.Save(barbeque);
 
             if (!successful)
             {
-                // error handler. should I throw?
+                throw new Exception("Error in create.");
             }
         }
 
@@ -44,13 +46,18 @@ namespace BarbequeApi.Services
 
             if(barbeque == null)
             {
-                return null;
+                throw new Exception($"Error in get barbequeId: {barbequeId}");
             }
 
             var barbequeDto = Translator.ToBarbequeDto(barbeque);
 
             return barbequeDto;
+        }
 
+        private void FillDefaultValuesIfNecessary(Barbeque barbeque)
+        {
+            barbeque.Title = string.IsNullOrWhiteSpace(barbeque.Title) ? "Sem motivo" : barbeque.Title;
+            barbeque.Date = barbeque.Date == null || barbeque.Date == default ? DateTime.Now : barbeque.Date;
         }
     }
 }

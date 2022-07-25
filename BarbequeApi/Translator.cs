@@ -10,6 +10,7 @@ namespace BarbequeApi
         {
             var barbeque = new Barbeque
             {
+                Id = barbequeDto.Id,
                 Title = barbequeDto.Title,
                 Date = barbequeDto.Date,
                 Persons = ToPersons(barbequeDto.Persons), 
@@ -23,6 +24,11 @@ namespace BarbequeApi
         {
             var persons = new List<Person>();
 
+            if(personsDto == null)
+            {
+                return persons;
+            }
+
             foreach (var personDto in personsDto)
             {
                 persons.Add(ToPerson(personDto));
@@ -31,10 +37,11 @@ namespace BarbequeApi
             return persons;
         }
 
-        private static Person ToPerson(PersonDto personDto)
+        public static Person ToPerson(PersonDto personDto)
         {
             var person = new Person
             {
+                Id = personDto.Id,
                 Name = personDto.Name,
                 FoodsMoney = personDto.FoodsMoney,
                 DrinksMoney = personDto.DrinksMoney

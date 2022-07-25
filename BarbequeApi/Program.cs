@@ -61,7 +61,7 @@ void Seed()
             {
                 new Person
                 {
-                    Name = "Lucas",
+                    Name = "Lucas Frvs",
                     DrinksMoney = 50,
                     FoodsMoney = 20
                 }
