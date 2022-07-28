@@ -13,13 +13,13 @@ using Xunit;
 
 namespace BarbequeApi.Tests.IntegrationTests
 {
-    public class BarbequeControllerIntegrationTests : IClassFixture<CustomWebApp<Program>>
+    public class BarbequeControllerIntegrationTests : IClassFixture<TestWebApp<Program>>
     {
-        private readonly CustomWebApp<Program> factory;
+        private readonly TestWebApp<Program> factory;
 
         public HttpClient HttpClient { get; }
 
-        public BarbequeControllerIntegrationTests(CustomWebApp<Program> factory)
+        public BarbequeControllerIntegrationTests(TestWebApp<Program> factory)
         {
             HttpClient = factory.CreateClient();
             this.factory = factory;
@@ -69,8 +69,8 @@ namespace BarbequeApi.Tests.IntegrationTests
                 {
                     new PersonDto
                     {
-                        DrinksMoney = 20, 
-                        FoodsMoney = 20, 
+                        BeverageMoneyShare = 20, 
+                        FoodMoneyShare = 20, 
                         Name = "Pessoa teste"
                     }
                 }
@@ -115,14 +115,14 @@ namespace BarbequeApi.Tests.IntegrationTests
                 {
                     new PersonDto
                     {
-                        DrinksMoney = 20,
-                        FoodsMoney = 20,
+                        BeverageMoneyShare = 20,
+                        FoodMoneyShare = 20,
                         Name = "Pessoa teste 1"
                     },
                     new PersonDto
                     {
-                        DrinksMoney = 0,
-                        FoodsMoney = 0,
+                        BeverageMoneyShare = 0,
+                        FoodMoneyShare = 0,
                         Name = "Pessoa teste 2"
                     }
                 }
@@ -167,8 +167,8 @@ namespace BarbequeApi.Tests.IntegrationTests
                     new Person
                     {
                         Name = "Fulano Silva",
-                        DrinksMoney = 10,
-                        FoodsMoney = 10
+                        BeverageMoneyShare = 10,
+                        FoodMoneyShare = 10
                     }
                 }
             };
@@ -220,8 +220,8 @@ namespace BarbequeApi.Tests.IntegrationTests
                 var expectedPersonToVerify = expectedPersons[i];
                 var actualPersonToVerify = actualPersons[i];
                 Assert.Equal(expectedPersonToVerify.Name, actualPersonToVerify.Name);
-                Assert.Equal(expectedPersonToVerify.FoodsMoney, actualPersonToVerify.FoodsMoney);
-                Assert.Equal(expectedPersonToVerify.DrinksMoney, actualPersonToVerify.DrinksMoney);
+                Assert.Equal(expectedPersonToVerify.FoodMoneyShare, actualPersonToVerify.FoodMoneyShare);
+                Assert.Equal(expectedPersonToVerify.BeverageMoneyShare, actualPersonToVerify.BeverageMoneyShare);
                 Assert.Equal(expectedPersonToVerify.BarbequeId, actualPersonToVerify.BarbequeId);
             }
         }

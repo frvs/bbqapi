@@ -12,13 +12,13 @@ using Xunit;
 
 namespace BarbequeApi.Tests.IntegrationTests
 {
-    public class PersonControllerIntegrationTests : IClassFixture<CustomWebApp<Program>>
+    public class PersonControllerIntegrationTests : IClassFixture<TestWebApp<Program>>
     {
-        private readonly CustomWebApp<Program> factory;
+        private readonly TestWebApp<Program> factory;
 
         public HttpClient HttpClient { get; }
 
-        public PersonControllerIntegrationTests(CustomWebApp<Program> factory)
+        public PersonControllerIntegrationTests(TestWebApp<Program> factory)
         {
             HttpClient = factory.CreateClient();
             this.factory = factory;
@@ -35,8 +35,8 @@ namespace BarbequeApi.Tests.IntegrationTests
             var personDto = new PersonDto
             {
                 Name = personName,
-                DrinksMoney = 20,
-                FoodsMoney = 20
+                BeverageMoneyShare = 20,
+                FoodMoneyShare = 20
             };
 
             // Act
@@ -56,54 +56,6 @@ namespace BarbequeApi.Tests.IntegrationTests
         }
 
         [Fact]
-        public async Task AddTwoPersonsToExistingBarbequeAndVerifyMoneyPredictionSuccess()
-        {
-            // Arrange
-            long barbequeId = 1;
-            var personName1 = "Fulano Testavel";
-            var personName2 = "Fulano Testavel com predicao";
-            var dbContext = factory.GetDbContext(factory);
-            var personDto1 = new PersonDto
-            {
-                Name = personName1,
-                DrinksMoney = 20,
-                FoodsMoney = 20
-            };
-
-            var personDto2 = new PersonDto
-            {
-                Name = personName2,
-                DrinksMoney = 0,
-                FoodsMoney = 0
-            };
-
-
-            // Act
-            _ = await HttpClient.PostAsync(
-                $"api/barbeques/{barbequeId}/persons",
-                new StringContent(JToken.FromObject(personDto1).ToString(), Encoding.UTF8, "application/json"));
-            var barbequeBeforeSecondPerson = dbContext.Barbeques.Include(b => b.Persons).FirstOrDefault(b => b.Id == barbequeId);
-            var mediumDrinksMoney = Math.Floor(barbequeBeforeSecondPerson.Persons.Select(p => p.DrinksMoney).Sum() / barbequeBeforeSecondPerson.Persons.Count());
-            var mediumFoodsMoney = Math.Floor(barbequeBeforeSecondPerson.Persons.Select(p => p.FoodsMoney).Sum() / barbequeBeforeSecondPerson.Persons.Count());
-
-            var httpResponse = await HttpClient.PostAsync(
-                $"api/barbeques/{barbequeId}/persons",
-                new StringContent(JToken.FromObject(personDto2).ToString(), Encoding.UTF8, "application/json"));
-
-            // Assert
-            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
-            var barbeque = dbContext.Barbeques.Include(b => b.Persons).FirstOrDefault(b => b.Id == barbequeId);
-            Assert.NotNull(barbeque);
-            Assert.True(barbeque.Persons.Count > 2);
-            var desiredPerson = barbeque.Persons.FirstOrDefault(p => p.Name == personName2);
-            Assert.NotNull(desiredPerson);
-            Assert.Equal(barbeque.Id, desiredPerson.BarbequeId);
-            Assert.Equal(personDto2.Name, desiredPerson.Name);
-            Assert.Equal(mediumFoodsMoney, desiredPerson.FoodsMoney);
-            Assert.Equal(mediumDrinksMoney, desiredPerson.DrinksMoney);
-        }
-
-        [Fact]
         public async Task DeletePersonForGivenBarbequeSuccess()
         {
             // Arrange
@@ -114,7 +66,8 @@ namespace BarbequeApi.Tests.IntegrationTests
             {
                 var barbeque = dbContext.Barbeques.Include(b => b.Persons).FirstOrDefault(b => b.Id == barbequeId);
                 Assert.NotNull(barbeque);
-                var existingPerson = barbeque.Persons.FirstOrDefault(a => a.Id == personId);
+                var existingPerson = barbeque.Persons.First();
+                personId = existingPerson.Id;
                 Assert.NotNull(existingPerson);
             }
             
@@ -155,8 +108,8 @@ namespace BarbequeApi.Tests.IntegrationTests
         private void AssertExpectedPersonEqualsToSaved(Person expectedPerson, Person desiredPerson)
         {
             Assert.Equal(expectedPerson.Name, desiredPerson.Name);
-            Assert.Equal(expectedPerson.FoodsMoney, desiredPerson.FoodsMoney);
-            Assert.Equal(expectedPerson.DrinksMoney, desiredPerson.DrinksMoney);
+            Assert.Equal(expectedPerson.FoodMoneyShare, desiredPerson.FoodMoneyShare);
+            Assert.Equal(expectedPerson.BeverageMoneyShare, desiredPerson.BeverageMoneyShare);
         }
     }
 }

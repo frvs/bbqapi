@@ -62,8 +62,8 @@ void Seed()
                 new Person
                 {
                     Name = "Lucas Frvs",
-                    DrinksMoney = 50,
-                    FoodsMoney = 20
+                    BeverageMoneyShare = 50,
+                    FoodMoneyShare = 20
                 }
             }
 

@@ -43,8 +43,8 @@ namespace BarbequeApi
             {
                 Id = personDto.Id,
                 Name = personDto.Name,
-                FoodsMoney = personDto.FoodsMoney,
-                DrinksMoney = personDto.DrinksMoney, 
+                FoodMoneyShare = personDto.FoodMoneyShare,
+                BeverageMoneyShare = personDto.BeverageMoneyShare, 
                 BarbequeId = personDto.BarbequeId
             };
 
@@ -84,8 +84,8 @@ namespace BarbequeApi
             {
                 Id = person.Id,
                 Name = person.Name,
-                FoodsMoney = person.FoodsMoney,
-                DrinksMoney = person.DrinksMoney, 
+                FoodMoneyShare = person.FoodMoneyShare,
+                BeverageMoneyShare = person.BeverageMoneyShare, 
                 BarbequeId = person.BarbequeId     
             };
 

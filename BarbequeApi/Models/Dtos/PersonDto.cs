@@ -4,11 +4,11 @@
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public decimal FoodsMoney { get; set; }
-        public decimal DrinksMoney { get; set; }
+        public decimal FoodMoneyShare { get; set; }
+        public decimal BeverageMoneyShare { get; set; }
         
         public string NameFormatted => FormatName(Name);
-        public decimal TotalMoney => FoodsMoney + DrinksMoney;
+        public decimal BudgetAmount => FoodMoneyShare + BeverageMoneyShare;
 
         public long BarbequeId { get; set; }
 
@@ -19,7 +19,7 @@
                 return string.Empty;
             }
 
-            if(!name.Contains(" "))
+            if(!name.Contains(' '))
             {
                 return name.Substring(0, 1).ToUpper() + name.Substring(1, name.Length - 1);
             }

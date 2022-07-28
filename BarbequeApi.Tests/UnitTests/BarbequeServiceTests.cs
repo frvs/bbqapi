@@ -33,8 +33,8 @@ namespace BarbequeApi.Tests.UnitTests
                     new PersonDto
                     {
                         Name = "Random name 2", 
-                        DrinksMoney = 10, 
-                        FoodsMoney = 10
+                        BeverageMoneyShare = 10, 
+                        FoodMoneyShare = 10
                     }
                 }
             };
@@ -96,8 +96,8 @@ namespace BarbequeApi.Tests.UnitTests
                     new PersonDto
                     {
                         Name = "Random name 2",
-                        DrinksMoney = 10,
-                        FoodsMoney = 10
+                        BeverageMoneyShare = 10,
+                        FoodMoneyShare = 10
                     }
                 }
             };
@@ -128,8 +128,8 @@ namespace BarbequeApi.Tests.UnitTests
                     new PersonDto
                     {
                         Name = "Random name 2",
-                        DrinksMoney = 10,
-                        FoodsMoney = 10
+                        BeverageMoneyShare = 10,
+                        FoodMoneyShare = 10
                     }
                 }
             };

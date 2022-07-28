@@ -62,8 +62,14 @@ nao precisamos do toggle, e podemos ter as duas formas de 'prediction' do valor 
 
 # models 
 
-bbq { date: datetime, description: string, notes: string?, persons: list<person> }  
+bbq { date: datetime, title: string, notes: string?, persons: list<person> }  
 person { name: string, value: decimal, foodValue: decimal, drinksValue: decimal }  
+
+# code review
+prediction de valores?
+haspaid pra person?
+pegar todos os churrascos? tela de login?
+esperam o front?
 
 # endpoints
 

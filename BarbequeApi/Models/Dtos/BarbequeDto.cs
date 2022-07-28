@@ -14,7 +14,7 @@ namespace BarbequeApi.Models.Dtos
         public string? Notes { get; set; }
         public string DateFormatted => Date.ToString("dd/MM", new CultureInfo("pt-BR"));
         public int NumberOfParticipants => Persons.Count;
-        public decimal MoneyInvested => Persons.Select(p => p.TotalMoney).Sum(n => Convert.ToDecimal(n));
+        public decimal MoneyInvested => Persons.Select(p => p.BudgetAmount).Sum(n => Convert.ToDecimal(n));
 
     }
 }

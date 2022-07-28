@@ -91,18 +91,10 @@ namespace BarbequeApi.Services
         {
             person.Name = string.IsNullOrWhiteSpace(person.Name) ? "Joao Doe" : person.Name;
 
-            if (person.FoodsMoney == 0 && person.DrinksMoney == 0)
+            if (person.FoodMoneyShare == 0 && person.BeverageMoneyShare == 0)
             {
-                if (barbequeDto.Persons.Count == 0)
-                {
-                    person.FoodsMoney = 20;
-                    person.DrinksMoney = 10;
-                }
-                else
-                {
-                    person.FoodsMoney = Math.Floor(barbequeDto.Persons.Select(p => p.FoodsMoney).Sum() / barbequeDto.Persons.Count);
-                    person.DrinksMoney = Math.Floor(barbequeDto.Persons.Select(p => p.DrinksMoney).Sum() / barbequeDto.Persons.Count);
-                }
+                person.FoodMoneyShare = 20;
+                person.BeverageMoneyShare = 10;
             }
         }
     }

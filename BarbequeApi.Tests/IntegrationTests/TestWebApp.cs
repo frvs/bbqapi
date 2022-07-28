@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace BarbequeApi.Tests.IntegrationTests
 {
-    public class CustomWebApp<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
+    public class TestWebApp<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -35,7 +35,7 @@ namespace BarbequeApi.Tests.IntegrationTests
             });
         }
 
-        public DataContext GetDbContext(CustomWebApp<TStartup> factory)
+        public DataContext GetDbContext(TestWebApp<TStartup> factory)
         {
             var scope = factory.Server.Services.CreateScope();
 
