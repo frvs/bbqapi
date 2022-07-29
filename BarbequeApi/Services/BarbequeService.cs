@@ -10,7 +10,7 @@ namespace BarbequeApi.Services
   public interface IBarbequeService
   {
     (bool, List<string>) Create(BarbequeDto barbequeDto);
-    BarbequeDto Get(long barbequeId);
+    (BarbequeDto?, List<string>) Get(string barbequeId);
   }
 
   public class BarbequeService : IBarbequeService
@@ -39,29 +39,34 @@ namespace BarbequeApi.Services
 
       if (!successful)
       {
-        errorMessages.Add("Error in barbequeRepository.Save()");
+        errorMessages.Add("500: Error in barbequeRepository.Save()");
       }
 
       return (successful, errorMessages);
     }
 
-    public BarbequeDto Get(long barbequeId)
+    public (BarbequeDto?, List<string>) Get(string barbequeIdString)
     {
-      if (barbequeId <= 0) // for the simplicity, i'll do this check in controller. its not the best practice but...
+      List<string> errorMessages = new();
+
+      var successfullyParsed = long.TryParse(barbequeIdString, out var barbequeId);
+      if (!successfullyParsed || barbequeId <= 0) 
       {
-        // error handler. should I throw?
+        errorMessages.Add("400: BarbequeId should be a integer greater than zero.");
+        return (null, errorMessages);
       }
 
       var barbeque = barbequeRepository.Get(barbequeId);
 
       if (barbeque == null)
       {
-        return null;
+        errorMessages.Add($"404: Cannot found a Barbeque with Id equals {barbequeIdString}.");
+        return (null, errorMessages);
       }
 
       var barbequeDto = Translator.ToBarbequeDto(barbeque);
 
-      return barbequeDto;
+      return (barbequeDto, errorMessages);
     }
 
     private void FillDefaultValues(Barbeque barbeque)

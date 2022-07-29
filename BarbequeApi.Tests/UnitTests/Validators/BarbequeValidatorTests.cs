@@ -17,7 +17,7 @@ namespace BarbequeApi.Tests.UnitTests
             var (succesful, errorMessages) = barbequeValidator.Validate(null);
             Assert.False(succesful);
             Assert.Single(errorMessages);
-            Assert.Equal("BarbequeDto should not be null.", errorMessages.First());
+            Assert.Equal("400: BarbequeDto should not be null.", errorMessages.First());
         }
 
         [Theory]
@@ -36,7 +36,7 @@ namespace BarbequeApi.Tests.UnitTests
             Assert.False(succesful);
             Assert.Single(errorMessages);
             Assert.Equal(
-                "BarbequeDto.Title should not be null, empty string or white spaces.", 
+                "400: BarbequeDto.Title should not be null, empty string or white spaces.", 
                 errorMessages.First());
         }
 
@@ -66,7 +66,7 @@ namespace BarbequeApi.Tests.UnitTests
             Assert.False(succesful);
             Assert.Single(errorMessages);
             Assert.Equal(
-                "BarbequeDto.Person[0] is not valid: PersonDto.FoodMoneyShare should not be negative.",
+                "400: BarbequeDto.Person[0] is not valid: 400: PersonDto.FoodMoneyShare should not be negative.",
                 errorMessages.First());
         }
 
@@ -100,7 +100,7 @@ namespace BarbequeApi.Tests.UnitTests
             {
                 Assert.Single(errorMessages);
                 Assert.Equal(
-                    "BarbequeDto.Date should be equals or after January 1, 1753.",
+                    "400: BarbequeDto.Date should be equals or after January 1, 1753.",
                     errorMessages.First());
             }
         }

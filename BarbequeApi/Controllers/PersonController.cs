@@ -1,6 +1,7 @@
 ﻿using BarbequeApi.Models.Dtos;
 using BarbequeApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BarbequeApi.Controllers
@@ -19,7 +20,19 @@ namespace BarbequeApi.Controllers
     [HttpPost("{barbequeId}/persons")]
     public async Task<IActionResult> Create([FromRoute] string barbequeId, [FromBody] PersonDto personDto)
     {
-      service.Create(long.Parse(barbequeId), personDto);
+      var (successful, errorMessages) = service.Create(barbequeId, personDto);
+
+      if(!successful)
+      {
+        if (!successful)
+        {
+          switch (errorMessages.First()[..3])
+          {
+            case "400": return BadRequest(errorMessages);
+            case "404": return NotFound(errorMessages);
+          }
+        }
+      }
 
       return NoContent();
     }
@@ -27,7 +40,16 @@ namespace BarbequeApi.Controllers
     [HttpDelete("{barbequeId}/persons/{personId}")]
     public async Task<IActionResult> Delete([FromRoute] string barbequeId, [FromRoute] string personId)
     {
-      service.Delete(long.Parse(barbequeId), long.Parse(personId));
+      var (successful, errorMessages) = service.Delete(barbequeId, personId);
+
+      if(!successful)
+      {
+        switch(errorMessages.First()[..3])
+        {
+          case "400": return BadRequest(errorMessages);
+          case "404": return NotFound(errorMessages);
+        }
+      }
 
       return NoContent();
     }

@@ -1,6 +1,7 @@
 ﻿using BarbequeApi.Models.Dtos;
 using BarbequeApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BarbequeApi.Controllers
@@ -19,18 +20,16 @@ namespace BarbequeApi.Controllers
     [HttpGet("{barbequeId}")]
     public async Task<IActionResult> Get([FromRoute] string barbequeId)
     {
-      var bbqIdParsed = long.Parse(barbequeId);
+      var (barbequeDto, errorMessages) = service.Get(barbequeId);
 
-      if (bbqIdParsed <= 0)
+
+      if (barbequeDto == null || errorMessages.Any())
       {
-        return BadRequest(); // NotFound is a good option too.
-      }
-
-      var barbequeDto = service.Get(bbqIdParsed);
-
-      if (barbequeDto == null)
-      {
-        return NotFound();
+        switch (errorMessages.First()[..3])
+        {
+          case "400": return BadRequest(errorMessages);
+          case "404": return NotFound(errorMessages);
+        }
       }
 
       return Ok(barbequeDto);
@@ -43,7 +42,11 @@ namespace BarbequeApi.Controllers
 
       if (!successful)
       {
-        return BadRequest(errorMessages);
+        switch (errorMessages.First()[..3])
+        {
+          case "400": return BadRequest(errorMessages);
+          case "404": return NotFound(errorMessages);
+        }
       }
 
       return NoContent();

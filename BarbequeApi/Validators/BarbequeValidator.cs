@@ -15,7 +15,7 @@ namespace BarbequeApi.Validators
       if (barbequeDto == null)
       {
         isValid &= false;
-        errors.Add("BarbequeDto should not be null.");
+        errors.Add("400: BarbequeDto should not be null.");
 
         return (isValid, errors);
       }
@@ -24,7 +24,7 @@ namespace BarbequeApi.Validators
       if (string.IsNullOrWhiteSpace(barbequeDto.Title))
       {
         isValid &= false;
-        errors.Add("BarbequeDto.Title should not be null, empty string or white spaces.");
+        errors.Add("400: BarbequeDto.Title should not be null, empty string or white spaces.");
       }
 
       var personValidator = new PersonValidator();
@@ -38,7 +38,7 @@ namespace BarbequeApi.Validators
 
           if (!isPersonValid)
           {
-            errors.Add($"BarbequeDto.Person[{index}] is not valid: {string.Join(',', errorMessages)}");
+            errors.Add($"400: BarbequeDto.Person[{index}] is not valid: {string.Join(',', errorMessages)}");
           }
         }
       }
@@ -46,7 +46,7 @@ namespace BarbequeApi.Validators
       if (barbequeDto.Date < sqlServerMinimumDateTime) // sqlserver minimum date
       {
         isValid &= false;
-        errors.Add("BarbequeDto.Date should be equals or after January 1, 1753.");
+        errors.Add("400: BarbequeDto.Date should be equals or after January 1, 1753.");
       }
 
       if (barbequeDto.Id != 0) // trying to send an existing barbeque

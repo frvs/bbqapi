@@ -1,15 +1,17 @@
 ﻿using BarbequeApi.Models;
 using BarbequeApi.Models.Dtos;
 using BarbequeApi.Repositories;
+using BarbequeApi.Validators;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BarbequeApi.Services
 {
   public interface IPersonService
   {
-    void Create(long barbequeId, PersonDto personDto);
-    void Delete(long barbequeId, long personId);
+    (bool, List<string>) Create(string barbequeId, PersonDto personDto);
+    (bool, List<string>) Delete(string barbequeId, string personId);
   }
 
   public class PersonService : IPersonService
@@ -23,73 +25,123 @@ namespace BarbequeApi.Services
       this.repository = repository;
     }
 
-    public void Create(long barbequeId, PersonDto personDto)
+    public (bool, List<string>) Create(string barbequeIdString, PersonDto personDto)
     {
-      if (barbequeId <= 0)
+      var successful = true;
+      List<string> errorMessages = new();
+
+      var successfullyParsed = long.TryParse(barbequeIdString, out var barbequeId);
+
+      if(!successfullyParsed || barbequeId <= 0)
       {
-        return;
+        successful &= false;
+        errorMessages.Add("400: BarbequeId should be a integer greater than zero.");
+      }
+      var personValidator = new PersonValidator();
+
+      var (isValidationSuccessful, validationMessages) = personValidator.Validate(personDto);
+
+      if(isValidationSuccessful)
+      {
+        successful &= isValidationSuccessful;
+        errorMessages.AddRange(validationMessages);
+      }
+      
+      if (!successful)
+      {
+        return (successful, errorMessages);
       }
 
       var barbeque = barbequeRepository.Get(barbequeId);
 
       if (barbeque == null)
       {
-        return;
+        successful &= false;
+        errorMessages.Add($"404: Error in barbequeRepository.Get({barbequeId})");
+
+        return (successful, errorMessages);
       }
 
       if (personDto.Id != 0 && barbeque.Persons.Select(p => p.Id).Contains(personDto.Id))
       {
-        // in this case, the person already exists in the bbq. 
-        // it should be a put/update. what should I do now?
-        // err;
-        return;
+        successful &= false;
+        errorMessages.Add($"400: PersonDto.Id {personDto.Id} is already in Barbeque.Id {barbequeId}.");
+
+        return (successful, errorMessages);
       }
 
       var person = Translator.ToPerson(personDto);
       person.BarbequeId = barbequeId;
       FillDefaultValues(person, barbeque);
 
-      bool succesful = repository.Save(person);
+      var successfulDatabaseChanges = repository.Save(person);
 
-      if (!succesful)
+      if(!successfulDatabaseChanges)
       {
-        throw new Exception("Error in Create");
+        successful &= successfulDatabaseChanges;
+        errorMessages.Add("404: Error in PersonRepository.Save()");
       }
+
+      return (successful, errorMessages);
     }
 
-    public void Delete(long barbequeId, long personId)
+    public (bool, List<string>) Delete(string barbequeIdString, string personIdString)
     {
-      if (barbequeId <= 0 || personId <= 0)
+      var successful = true;
+      List<string> errorMessages = new();
+
+      var personIdSuccessfullyParsed = long.TryParse(personIdString, out var personId);
+      var barbequeIdSuccessfullyParsed = long.TryParse(personIdString, out var barbequeId);
+
+      if (!personIdSuccessfullyParsed || personId <= 0)
       {
-        // err
-        return;
+        successful &= false;
+        errorMessages.Add("400: PersonId should be a integer greater than zero.");
+      }
+
+      if (!barbequeIdSuccessfullyParsed || barbequeId <= 0)
+      {
+        successful &= false;
+        errorMessages.Add("400: BarbequeId should be a integer greater than zero.");
+      }
+
+      if(!successful)
+      {
+        return (successful, errorMessages);
       }
 
       var barbeque = barbequeRepository.Get(barbequeId);
 
       if (barbeque == null)
       {
-        // err
-        return;
+        successful &= false;
+        errorMessages.Add($"404: Cannot found Barbeque with Id {barbequeId}");
+
+        return (successful, errorMessages);
       }
 
       if (barbeque.Persons.FirstOrDefault(p => p.Id == personId) == null)
       {
-        // err
-        return;
+        successful &= false;
+        errorMessages.Add($"404: Error: cannot found Person {personId} in Barbeque.Id {barbequeId}");
+
+        return (successful, errorMessages);
       }
 
-      bool succesful = repository.Delete(barbeque, personId);
+      var succesful = repository.Delete(barbeque, personId);
 
       if (!succesful)
       {
-        throw new Exception("Error in Delete");
+        successful &= false;
+        errorMessages.Add("404: Error in PersonRepository.Delete()");
       }
+
+      return (successful, errorMessages);
     }
 
     private void FillDefaultValues(Person person, Barbeque barbequeDto)
     {
-      person.Name = string.IsNullOrWhiteSpace(person.Name) ? "Joao Doe" : person.Name;
+      person.Name = string.IsNullOrWhiteSpace(person.Name) ? "Jane Doe" : person.Name;
 
       if (person.FoodMoneyShare == 0 && person.BeverageMoneyShare == 0)
       {

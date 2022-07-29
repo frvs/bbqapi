@@ -57,7 +57,7 @@ decidi por nao utilizar interfaces pros validators e foi bom pq poupou tempo nos
 os testes de unidade ajudaram bastante a achar pequenos bugs.
 
 - error handler no personservice, testes unitários dos servicos (fazer de person e revisar de barbeque),  teste unitário do dto (=>), 
-revisar namings, strings e geralzao. depois voltar pra => legibilidade e reaproveitamento), mudar a infra do banco
+revisar namings, strings e geralzao (pq o indent=2 n funciona mais?). depois voltar pra => legibilidade e reaproveitamento), mudar a infra do banco
 
 # requisitos
 Incluir um novo churrasco com data, descrição e observações adicionais;  

@@ -68,12 +68,12 @@ namespace BarbequeApi.Tests.UnitTests
                 });
 
             // Act
-            var barbeque = service.Get(barbequeId);
+            var barbeque = service.Get(barbequeId.ToString());
 
             // Assert
-            Assert.Equal(barbequeId, barbeque.Id);
-            Assert.Equal(expectedBarbeque.Title, barbeque.Title);
-            Assert.Equal(expectedBarbeque.Persons.Count, barbeque.Persons.Count);
+            Assert.Equal(barbequeId, barbeque.Item1.Id);
+            Assert.Equal(expectedBarbeque.Title, barbeque.Item1.Title);
+            Assert.Equal(expectedBarbeque.Persons.Count, barbeque.Item1.Persons.Count);
             repositoryMock.Verify(r => r.Get(barbequeId), Times.Once, "IBarbequeRepository.Get should be called once.");
         }
 
@@ -142,7 +142,7 @@ namespace BarbequeApi.Tests.UnitTests
 
             // Assert
             Assert.False(successful);
-            Assert.Equal("Error in barbequeRepository.Save()", errorMessages.Last());
+            Assert.Equal("500: Error in barbequeRepository.Save()", errorMessages.Last());
             repositoryMock.Verify(
                 r => r.Save(It.IsAny<Barbeque>()),
                 Times.Once,
@@ -169,7 +169,7 @@ namespace BarbequeApi.Tests.UnitTests
             repositoryMock.Setup(r => r.Get(barbequeId)).Throws(new Exception("any db exception"));
 
             // Act
-            Assert.Throws<Exception>(() => service.Get(barbequeId));
+            Assert.Throws<Exception>(() => service.Get(barbequeId.ToString()));
 
             // Assert
             repositoryMock.Verify(

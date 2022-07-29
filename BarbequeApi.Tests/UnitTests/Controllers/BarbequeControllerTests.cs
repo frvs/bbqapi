@@ -42,7 +42,7 @@ namespace BarbequeApi.Tests.UnitTests
         {
             // Arrange
             var barbequeId = "1";
-            serviceMock.Setup(s => s.Get(long.Parse(barbequeId))).Returns(new BarbequeDto());
+            serviceMock.Setup(s => s.Get(barbequeId)).Returns((new BarbequeDto(), new List<string>()));
             
             // Act
             var response = await controller.Get(barbequeId);
@@ -50,7 +50,7 @@ namespace BarbequeApi.Tests.UnitTests
             // Assert
             var statusResult = Assert.IsType<OkObjectResult>(response);
             Assert.Equal((int)HttpStatusCode.OK, statusResult.StatusCode);
-            serviceMock.Verify(s => s.Get(long.Parse(barbequeId)), Times.Once, "IBarbequeService.Get should be called once.");
+            serviceMock.Verify(s => s.Get(barbequeId), Times.Once, "IBarbequeService.Get should be called once.");
         }
 
         [Fact]
@@ -72,12 +72,12 @@ namespace BarbequeApi.Tests.UnitTests
             // Arrange
             var barbequeId = "1";
 
-            serviceMock.Setup(s => s.Get(long.Parse(barbequeId))).Throws(new Exception("random exception"));
+            serviceMock.Setup(s => s.Get(barbequeId)).Throws(new Exception("random exception"));
 
             // Act
             Assert.ThrowsAsync<Exception>(() => controller.Get(barbequeId));
 
-            serviceMock.Verify(s => s.Get(long.Parse(barbequeId)), Times.Once, "IBarbequeService.Get should be called once.");
+            serviceMock.Verify(s => s.Get(barbequeId), Times.Once, "IBarbequeService.Get should be called once.");
         }
     }
 }
