@@ -6,96 +6,96 @@ using System.Linq;
 
 namespace BarbequeApi.Services
 {
-    public interface IPersonService
+  public interface IPersonService
+  {
+    void Create(long barbequeId, PersonDto personDto);
+    void Delete(long barbequeId, long personId);
+  }
+
+  public class PersonService : IPersonService
+  {
+    private readonly IBarbequeRepository barbequeRepository;
+    private readonly IPersonRepository repository;
+
+    public PersonService(IBarbequeRepository barbequeRepository, IPersonRepository repository)
     {
-        void Create(long barbequeId, PersonDto personDto);
-        void Delete(long barbequeId, long personId);
+      this.barbequeRepository = barbequeRepository;
+      this.repository = repository;
     }
 
-    public class PersonService : IPersonService
+    public void Create(long barbequeId, PersonDto personDto)
     {
-        private readonly IBarbequeRepository barbequeRepository;
-        private readonly IPersonRepository repository;
+      if (barbequeId <= 0)
+      {
+        return;
+      }
 
-        public PersonService(IBarbequeRepository barbequeRepository, IPersonRepository repository)
-        {
-            this.barbequeRepository = barbequeRepository;
-            this.repository = repository;
-        }
+      var barbeque = barbequeRepository.Get(barbequeId);
 
-        public void Create(long barbequeId, PersonDto personDto)
-        {
-            if(barbequeId <= 0)
-            {
-                return;
-            }
+      if (barbeque == null)
+      {
+        return;
+      }
 
-            var barbeque = barbequeRepository.Get(barbequeId);
+      if (personDto.Id != 0 && barbeque.Persons.Select(p => p.Id).Contains(personDto.Id))
+      {
+        // in this case, the person already exists in the bbq. 
+        // it should be a put/update. what should I do now?
+        // err;
+        return;
+      }
 
-            if(barbeque == null)
-            {
-                return;
-            }
+      var person = Translator.ToPerson(personDto);
+      person.BarbequeId = barbequeId;
+      FillDefaultValues(person, barbeque);
 
-            if(personDto.Id != 0 && barbeque.Persons.Select(p => p.Id).Contains(personDto.Id))
-            {
-                // in this case, the person already exists in the bbq. 
-                // it should be a put/update. what should I do now?
-                // err;
-                return;
-            }
+      bool succesful = repository.Save(person);
 
-            var person = Translator.ToPerson(personDto);
-            person.BarbequeId = barbequeId;
-            FillDefaultValuesIfNecessary(person, barbeque);
-
-            bool succesful = repository.Save(person);
-
-            if (!succesful)
-            {
-                throw new Exception("Error in Create");
-            }
-        }
-
-        public void Delete(long barbequeId, long personId)
-        {
-            if (barbequeId <= 0 || personId <= 0)
-            {
-                // err
-                return;
-            }
-
-            var barbeque = barbequeRepository.Get(barbequeId);
-
-            if (barbeque == null)
-            {
-                // err
-                return;
-            }
-
-            if (barbeque.Persons.FirstOrDefault(p => p.Id == personId) == null)
-            {
-                // err
-                return;
-            }
-
-            bool succesful = repository.Delete(barbeque, personId);
-
-            if(!succesful)
-            {
-                throw new Exception("Error in Delete");
-            }
-        }
-
-        private void FillDefaultValuesIfNecessary(Person person, Barbeque barbequeDto)
-        {
-            person.Name = string.IsNullOrWhiteSpace(person.Name) ? "Joao Doe" : person.Name;
-
-            if (person.FoodMoneyShare == 0 && person.BeverageMoneyShare == 0)
-            {
-                person.FoodMoneyShare = 20;
-                person.BeverageMoneyShare = 10;
-            }
-        }
+      if (!succesful)
+      {
+        throw new Exception("Error in Create");
+      }
     }
+
+    public void Delete(long barbequeId, long personId)
+    {
+      if (barbequeId <= 0 || personId <= 0)
+      {
+        // err
+        return;
+      }
+
+      var barbeque = barbequeRepository.Get(barbequeId);
+
+      if (barbeque == null)
+      {
+        // err
+        return;
+      }
+
+      if (barbeque.Persons.FirstOrDefault(p => p.Id == personId) == null)
+      {
+        // err
+        return;
+      }
+
+      bool succesful = repository.Delete(barbeque, personId);
+
+      if (!succesful)
+      {
+        throw new Exception("Error in Delete");
+      }
+    }
+
+    private void FillDefaultValues(Person person, Barbeque barbequeDto)
+    {
+      person.Name = string.IsNullOrWhiteSpace(person.Name) ? "Joao Doe" : person.Name;
+
+      if (person.FoodMoneyShare == 0 && person.BeverageMoneyShare == 0)
+      {
+        person.FoodMoneyShare = 20;
+        person.BeverageMoneyShare = 10;
+      }
+    }
+  }
 }

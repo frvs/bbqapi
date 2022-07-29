@@ -7,67 +7,67 @@ using System.Collections.Generic;
 
 namespace BarbequeApi.Services
 {
-    public interface IBarbequeService
+  public interface IBarbequeService
+  {
+    (bool, List<string>) Create(BarbequeDto barbequeDto);
+    BarbequeDto Get(long barbequeId);
+  }
+
+  public class BarbequeService : IBarbequeService
+  {
+    private readonly IBarbequeRepository barbequeRepository;
+
+    public BarbequeService(IBarbequeRepository barbequeRepository)
     {
-        (bool, List<string>) Create(BarbequeDto barbequeDto);
-        BarbequeDto Get(long barbequeId);
+      this.barbequeRepository = barbequeRepository;
     }
 
-    public class BarbequeService : IBarbequeService
+    public (bool, List<string>) Create(BarbequeDto barbequeDto)
     {
-        private readonly IBarbequeRepository barbequeRepository;
+      var validator = new BarbequeValidator();
+      var (isDtoValid, errorMessages) = validator.Validate(barbequeDto);
 
-        public BarbequeService(IBarbequeRepository barbequeRepository)
-        {
-            this.barbequeRepository = barbequeRepository;
-        }
+      if (!isDtoValid)
+      {
+        return (isDtoValid, errorMessages);
+      }
 
-        public (bool, List<string>) Create(BarbequeDto barbequeDto)
-        {
-            var validator = new BarbequeValidator();
-            var (isDtoValid, errorMessages) = validator.Validate(barbequeDto);
+      var barbeque = Translator.ToBarbeque(barbequeDto);
+      FillDefaultValues(barbeque);
 
-            if(!isDtoValid)
-            {
-                return (isDtoValid, errorMessages);
-            }
+      bool successful = barbequeRepository.Save(barbeque);
 
-            var barbeque = Translator.ToBarbeque(barbequeDto);
-            FillDefaultValues(barbeque);
+      if (!successful)
+      {
+        errorMessages.Add("Error in barbequeRepository.Save()");
+      }
 
-            bool successful = barbequeRepository.Save(barbeque);
-
-            if (!successful)
-            {
-                errorMessages.Add("Error in barbequeRepository.Save()");
-            }
-
-            return (successful, errorMessages);
-        }
-
-        public BarbequeDto Get(long barbequeId)
-        {
-            if(barbequeId <= 0) // for the simplicity, i'll do this check in controller. its not the best practice but...
-            {
-                // error handler. should I throw?
-            }
-
-            var barbeque = barbequeRepository.Get(barbequeId);
-
-            if(barbeque == null)
-            {
-                return null;
-            }
-
-            var barbequeDto = Translator.ToBarbequeDto(barbeque);
-
-            return barbequeDto;
-        }
-
-        private void FillDefaultValues(Barbeque barbeque)
-        {
-            barbeque.Title = string.IsNullOrWhiteSpace(barbeque.Title) ? "Sem motivo" : barbeque.Title;
-            barbeque.Date = barbeque.Date == default ? DateTime.Now : barbeque.Date;
-        }
+      return (successful, errorMessages);
     }
+
+    public BarbequeDto Get(long barbequeId)
+    {
+      if (barbequeId <= 0) // for the simplicity, i'll do this check in controller. its not the best practice but...
+      {
+        // error handler. should I throw?
+      }
+
+      var barbeque = barbequeRepository.Get(barbequeId);
+
+      if (barbeque == null)
+      {
+        return null;
+      }
+
+      var barbequeDto = Translator.ToBarbequeDto(barbeque);
+
+      return barbequeDto;
+    }
+
+    private void FillDefaultValues(Barbeque barbeque)
+    {
+      barbeque.Title = string.IsNullOrWhiteSpace(barbeque.Title) ? "Sem motivo" : barbeque.Title;
+      barbeque.Date = barbeque.Date == default ? DateTime.Now : barbeque.Date;
+    }
+  }
 }

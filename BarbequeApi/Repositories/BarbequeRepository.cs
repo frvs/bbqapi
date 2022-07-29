@@ -4,31 +4,31 @@ using System.Linq;
 
 namespace BarbequeApi.Repositories
 {
-    public interface IBarbequeRepository
+  public interface IBarbequeRepository
+  {
+    bool Save(Barbeque barbeque);
+    Barbeque Get(long barbequeId);
+  }
+
+  public class BarbequeRepository : IBarbequeRepository
+  {
+    private readonly DataContext context;
+
+    public BarbequeRepository(DataContext context)
     {
-        bool Save(Barbeque barbeque);
-        Barbeque Get(long barbequeId);
+      this.context = context;
     }
 
-    public class BarbequeRepository : IBarbequeRepository
+    public Barbeque Get(long barbequeId)
     {
-        private readonly DataContext context;
-
-        public BarbequeRepository(DataContext context)
-        {
-            this.context = context;
-        }
-
-        public Barbeque Get(long barbequeId)
-        {
-            return context.Barbeques.Include(b => b.Persons).FirstOrDefault(barbeque => barbeque.Id == barbequeId);
-        }
-
-        public bool Save(Barbeque barbeque)
-        {
-            context.Barbeques.Add(barbeque);
-
-            return context.SaveChanges() > 0;
-        }
+      return context.Barbeques.Include(b => b.Persons).FirstOrDefault(barbeque => barbeque.Id == barbequeId);
     }
+
+    public bool Save(Barbeque barbeque)
+    {
+      context.Barbeques.Add(barbeque);
+
+      return context.SaveChanges() > 0;
+    }
+  }
 }

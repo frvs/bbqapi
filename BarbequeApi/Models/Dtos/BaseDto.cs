@@ -1,4 +1,4 @@
 ﻿namespace BarbequeApi.Models.Dtos
 {
-    public abstract class BaseDto { }
+  public abstract class BaseDto { }
 }

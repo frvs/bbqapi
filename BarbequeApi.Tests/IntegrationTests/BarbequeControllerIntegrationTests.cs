@@ -62,15 +62,15 @@ namespace BarbequeApi.Tests.IntegrationTests
 
             var barbequeDto = new BarbequeDto
             {
-                Title = bbqTitle, 
-                Date = new DateTime(2000, 1, 1), 
+                Title = bbqTitle,
+                Date = new DateTime(2000, 1, 1),
                 Notes = "algumas notas",
                 Persons = new List<PersonDto>
                 {
                     new PersonDto
                     {
-                        BeverageMoneyShare = 20, 
-                        FoodMoneyShare = 20, 
+                        BeverageMoneyShare = 20,
+                        FoodMoneyShare = 20,
                         Name = "Pessoa teste"
                     }
                 }

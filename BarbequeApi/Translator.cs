@@ -12,8 +12,8 @@ namespace BarbequeApi
             {
                 Id = barbequeDto.Id,
                 Title = barbequeDto.Title,
-                Date = barbequeDto.Date,
-                Persons = ToPersons(barbequeDto.Persons), 
+                Date = barbequeDto.Date.GetValueOrDefault(),
+                Persons = ToPersons(barbequeDto.Persons),
                 Notes = barbequeDto.Notes
             };
 
@@ -24,7 +24,7 @@ namespace BarbequeApi
         {
             var persons = new List<Person>();
 
-            if(personsDto == null)
+            if (personsDto == null)
             {
                 return persons;
             }
@@ -44,7 +44,7 @@ namespace BarbequeApi
                 Id = personDto.Id,
                 Name = personDto.Name,
                 FoodMoneyShare = personDto.FoodMoneyShare,
-                BeverageMoneyShare = personDto.BeverageMoneyShare, 
+                BeverageMoneyShare = personDto.BeverageMoneyShare,
                 BarbequeId = personDto.BarbequeId
             };
 
@@ -59,7 +59,7 @@ namespace BarbequeApi
                 Id = barbeque.Id,
                 Title = barbeque.Title,
                 Date = barbeque.Date,
-                Persons = ToPersonsDto(barbeque.Persons), 
+                Persons = ToPersonsDto(barbeque.Persons),
                 Notes = barbeque.Notes
             };
 
@@ -85,8 +85,8 @@ namespace BarbequeApi
                 Id = person.Id,
                 Name = person.Name,
                 FoodMoneyShare = person.FoodMoneyShare,
-                BeverageMoneyShare = person.BeverageMoneyShare, 
-                BarbequeId = person.BarbequeId     
+                BeverageMoneyShare = person.BeverageMoneyShare,
+                BarbequeId = person.BarbequeId
             };
 
             return personDto;
