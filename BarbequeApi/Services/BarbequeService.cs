@@ -1,13 +1,15 @@
 ﻿using BarbequeApi.Models;
 using BarbequeApi.Models.Dtos;
 using BarbequeApi.Repositories;
+using BarbequeApi.Validators;
 using System;
+using System.Collections.Generic;
 
 namespace BarbequeApi.Services
 {
     public interface IBarbequeService
     {
-        void Create(BarbequeDto barbequeDto);
+        (bool, List<string>) Create(BarbequeDto barbequeDto);
         BarbequeDto Get(long barbequeId);
     }
 
@@ -20,24 +22,32 @@ namespace BarbequeApi.Services
             this.barbequeRepository = barbequeRepository;
         }
 
-        public void Create(BarbequeDto barbequeDto)
+        public (bool, List<string>) Create(BarbequeDto barbequeDto)
         {
-            // Validator.Validate(barbequeDto);? // should I call/create it?
+            var validator = new BarbequeValidator();
+            var (isDtoValid, errorMessages) = validator.Validate(barbequeDto);
+
+            if(!isDtoValid)
+            {
+                return (isDtoValid, errorMessages);
+            }
 
             var barbeque = Translator.ToBarbeque(barbequeDto);
-            FillDefaultValuesIfNecessary(barbeque);
+            FillDefaultValues(barbeque);
 
             bool successful = barbequeRepository.Save(barbeque);
 
             if (!successful)
             {
-                throw new Exception("Error in create.");
+                errorMessages.Add("Error in barbequeRepository.Save()");
             }
+
+            return (successful, errorMessages);
         }
 
         public BarbequeDto Get(long barbequeId)
         {
-            if(barbequeId <= 0)
+            if(barbequeId <= 0) // for the simplicity, i'll do this check in controller. its not the best practice but...
             {
                 // error handler. should I throw?
             }
@@ -46,7 +56,7 @@ namespace BarbequeApi.Services
 
             if(barbeque == null)
             {
-                throw new Exception($"Error in get barbequeId: {barbequeId}");
+                return null;
             }
 
             var barbequeDto = Translator.ToBarbequeDto(barbeque);
@@ -54,10 +64,10 @@ namespace BarbequeApi.Services
             return barbequeDto;
         }
 
-        private void FillDefaultValuesIfNecessary(Barbeque barbeque)
+        private void FillDefaultValues(Barbeque barbeque)
         {
             barbeque.Title = string.IsNullOrWhiteSpace(barbeque.Title) ? "Sem motivo" : barbeque.Title;
-            barbeque.Date = barbeque.Date == null || barbeque.Date == default ? DateTime.Now : barbeque.Date;
+            barbeque.Date = barbeque.Date == default ? DateTime.Now : barbeque.Date;
         }
     }
 }

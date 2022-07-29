@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BarbequeApi.Models.Dtos
 {
-    public class BarbequeDto
+    public class BarbequeDto : BaseDto
     {
         public long Id { get; set; }
         public string Title { get; set; } = "Sem motivo";

@@ -5,6 +5,7 @@ using BarbequeApi.Services;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -26,7 +27,7 @@ namespace BarbequeApi.Tests.UnitTests
             var barbequeDto = new BarbequeDto
             {
                 Title = "Random name",
-                Date = DateTime.Now, 
+                Date = new DateTime(2000, 1, 1), 
                 Notes = "some notes", 
                 Persons = new List<PersonDto>
                 {
@@ -89,7 +90,7 @@ namespace BarbequeApi.Tests.UnitTests
             var barbequeDto = new BarbequeDto
             {
                 Title = "Random name",
-                Date = DateTime.Now,
+                Date = new DateTime(2000, 1, 1),
                 Notes = "some notes",
                 Persons = new List<PersonDto>
                 {
@@ -115,13 +116,13 @@ namespace BarbequeApi.Tests.UnitTests
         }
 
         [Fact]
-        public async Task CreateBarbequeWhenDatabaseFailsGivesFailureWithoutException()
+        public async Task CreateBarbequeShouldReturnProperErrorMessageWhenDatabaseDontFound()
         {
             // Arrange
             var barbequeDto = new BarbequeDto
             {
                 Title = "Random name",
-                Date = DateTime.Now,
+                Date = new DateTime(2000, 1, 1),
                 Notes = "some notes",
                 Persons = new List<PersonDto>
                 {
@@ -137,9 +138,11 @@ namespace BarbequeApi.Tests.UnitTests
             repositoryMock.Setup(r => r.Save(It.IsAny<Barbeque>())).Returns(false);
 
             // Act
-            Assert.Throws<Exception>(() => service.Create(barbequeDto));
+            var (successful, errorMessages) = service.Create(barbequeDto);
 
             // Assert
+            Assert.False(successful);
+            Assert.Equal("Error in barbequeRepository.Save()", errorMessages.Last());
             repositoryMock.Verify(
                 r => r.Save(It.IsAny<Barbeque>()),
                 Times.Once,
@@ -173,24 +176,6 @@ namespace BarbequeApi.Tests.UnitTests
                 r => r.Get(barbequeId),
                 Times.Once,
                 "IBarbequeRepository.Save should be called once.");
-        }
-
-        [Fact]
-        public async Task GetBarbequeGivesErrorWhenNoRecordsFoundOnDb()
-        {
-            // Arrange
-            var barbequeId = 1L;
-
-            repositoryMock.Setup(r => r.Get(barbequeId)).Returns((Barbeque)null);
-
-            // Act
-            Assert.Throws<Exception>(() => service.Get(barbequeId));
-
-            // Assert
-            repositoryMock.Verify(
-                r => r.Get(barbequeId),
-                Times.Once,
-                "IBarbequeRepository.Get should be called once.");
         }
     }
 }

@@ -19,7 +19,19 @@ namespace BarbequeApi.Controllers
         [HttpGet("{barbequeId}")]
         public async Task<IActionResult> Get([FromRoute] string barbequeId)
         {
-            var barbequeDto = service.Get(long.Parse(barbequeId));
+            var bbqIdParsed = long.Parse(barbequeId);
+
+            if (bbqIdParsed <= 0) 
+            {
+                return BadRequest(); // NotFound is a good option too.
+            }
+
+            var barbequeDto = service.Get(bbqIdParsed);
+
+            if (barbequeDto == null)
+            {
+                return NotFound();
+            }
 
             return Ok(barbequeDto);
         }
@@ -27,7 +39,12 @@ namespace BarbequeApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] BarbequeDto barbequeDto)
         {
-            service.Create(barbequeDto);
+            var (successful, errorMessages) = service.Create(barbequeDto);
+
+            if(!successful)
+            {
+                return BadRequest(errorMessages);
+            }
 
             return NoContent();
         }

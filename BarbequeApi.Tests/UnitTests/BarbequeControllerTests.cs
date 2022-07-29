@@ -4,6 +4,7 @@ using BarbequeApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
@@ -25,7 +26,7 @@ namespace BarbequeApi.Tests.UnitTests
         {
             // Arrange
             var obj = new BarbequeDto();
-            serviceMock.Setup(s => s.Create(obj));
+            serviceMock.Setup(s => s.Create(obj)).Returns((true, new List<string>()));
 
             // Act
             var response = await controller.Create(obj);

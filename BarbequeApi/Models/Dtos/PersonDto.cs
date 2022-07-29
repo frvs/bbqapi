@@ -1,6 +1,6 @@
 ﻿namespace BarbequeApi.Models.Dtos
 {
-    public class PersonDto
+    public class PersonDto : BaseDto
     {
         public long Id { get; set; }
         public string Name { get; set; }

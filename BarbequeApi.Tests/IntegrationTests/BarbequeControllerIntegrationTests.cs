@@ -63,7 +63,7 @@ namespace BarbequeApi.Tests.IntegrationTests
             var barbequeDto = new BarbequeDto
             {
                 Title = bbqTitle, 
-                Date = DateTime.Now, 
+                Date = new DateTime(2000, 1, 1), 
                 Notes = "algumas notas",
                 Persons = new List<PersonDto>
                 {
@@ -109,7 +109,7 @@ namespace BarbequeApi.Tests.IntegrationTests
             var barbequeDto = new BarbequeDto
             {
                 Title = bbqTitle,
-                Date = DateTime.Now,
+                Date = new DateTime(2000, 1, 1),
                 Notes = "algumas notas mais aleatorias",
                 Persons = new List<PersonDto>
                 {
@@ -156,7 +156,7 @@ namespace BarbequeApi.Tests.IntegrationTests
         public async Task GetBarbequeSuccess()
         {
             // Arrange
-            var now = DateTime.Now;
+            var now = new DateTime(2000, 1, 1);
             var barbequeToInsert = new Barbeque
             {
                 Title = "Motivo de teste",
@@ -202,7 +202,7 @@ namespace BarbequeApi.Tests.IntegrationTests
             var httpResponse = await HttpClient.GetAsync($"api/barbeques/{-1}");
 
             // Assert
-            Assert.Equal(HttpStatusCode.InternalServerError, httpResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, httpResponse.StatusCode);
         }
 
         private void AssertExpectedBarbequeEqualsToSaved(Barbeque barbequeToInsert, Barbeque actualBarbeque)

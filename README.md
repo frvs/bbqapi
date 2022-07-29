@@ -48,6 +48,10 @@ além disso, está no roadmap deploy (heroku ou azure) e trocar o banco de inmemor
 
 - fiz primeiro deploy, amanhã faço os testes. terça validações e quarta troco o banco. será?
 
+- próximos passos, em ordem: validações, refactoring de tudo (visando legibilidade e reaproveitamento), mudar a infra do banco (da app e de testes).
+depois, se der tempo, front e melhorias de infra (pensando aqui se vale a pena colocar isso no azure pra fazer algo mais 'requintado').
+btw apesar de gostar mt de TDD, nao estou utilizando. primeiro mudo a impl., depois o teste. =(
+
 # requisitos
 Incluir um novo churrasco com data, descrição e observações adicionais;  
 Adicionar e remover participantes (colocando o seu valor de contribuição);  
@@ -66,10 +70,11 @@ bbq { date: datetime, title: string, notes: string?, persons: list<person> }
 person { name: string, value: decimal, foodValue: decimal, drinksValue: decimal }  
 
 # code review
-prediction de valores?
-haspaid pra person?
-pegar todos os churrascos? tela de login?
-esperam o front?
+prediction de valores? desfeito
+haspaid pra person? nao sei se precisa. adicionar? se sobrar tempo
+teste pro dtos => fazer
+pegar todos os churrascos? tela de login? se não achar nada pra fazer hoje(qui) e amanhã, faço.
+esperam o front? se houver tempo suficiente, faço no final de semana. e em vanilla js.
 
 # endpoints
 
