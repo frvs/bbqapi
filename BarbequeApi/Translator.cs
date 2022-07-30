@@ -1,6 +1,7 @@
 ﻿using BarbequeApi.Models;
 using BarbequeApi.Models.Dtos;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BarbequeApi
 {
@@ -24,7 +25,7 @@ namespace BarbequeApi
         {
             var persons = new List<Person>();
 
-            if (personsDto == null)
+            if (personsDto == null || !personsDto.Any())
             {
                 return persons;
             }

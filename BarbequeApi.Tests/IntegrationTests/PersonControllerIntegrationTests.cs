@@ -1,12 +1,11 @@
 ﻿using BarbequeApi.Models;
 using BarbequeApi.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -31,7 +30,7 @@ namespace BarbequeApi.Tests.IntegrationTests
             // Arrange
             long barbequeId = 1;
             var personName = "Fulano Testavel";
-            var dbContext = factory.GetDbContext(factory);
+            var dbContext = factory.GetDbContext();
             var personDto = new PersonDto
             {
                 Name = personName,
@@ -40,12 +39,10 @@ namespace BarbequeApi.Tests.IntegrationTests
             };
 
             // Act
-            var httpResponse = await HttpClient.PostAsync(
-                $"api/barbeques/{barbequeId}/persons", 
-                new StringContent(JToken.FromObject(personDto).ToString(), Encoding.UTF8, "application/json"));
+            var (statusCode, _) = await HttpClient.PostAsync($"api/barbeques/{barbequeId}/persons", personDto);
 
             // Assert
-            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
+            Assert.Equal(HttpStatusCode.NoContent, statusCode);
             var barbeque = dbContext.Barbeques.Include(b => b.Persons).FirstOrDefault(b => b.Id == barbequeId);
             Assert.NotNull(barbeque);
             var desiredPerson = barbeque.Persons.FirstOrDefault(p => p.Name == personName);
@@ -59,24 +56,41 @@ namespace BarbequeApi.Tests.IntegrationTests
         public async Task DeletePersonForGivenBarbequeSuccess()
         {
             // Arrange
-            long barbequeId = 1;
-            long personId = 1;
+            long barbequeId = 0;
+            long personId = 0;
 
-            using (var dbContext = factory.GetDbContext(factory))
+            using (var dbContext = factory.GetDbContext())
             {
-                var barbeque = dbContext.Barbeques.Include(b => b.Persons).FirstOrDefault(b => b.Id == barbequeId);
-                Assert.NotNull(barbeque);
-                var existingPerson = barbeque.Persons.First();
-                personId = existingPerson.Id;
-                Assert.NotNull(existingPerson);
+                var barbeque = new Barbeque
+                {
+                    Title = "Test DeletePersonForGivenBarbequeSuccess",
+                    Date = new DateTime(2000, 1, 1),
+                    Persons = new List<Person>
+                    {
+                        new Person
+                        {
+                            Name = "Test",
+                            BeverageMoneyShare = 10,
+                            FoodMoneyShare = 10
+                        }
+                    }
+                };
+
+                dbContext.Barbeques.Add(barbeque);
+                dbContext.SaveChanges();
+
+                var savedBarbeque = dbContext.Barbeques.FirstOrDefault(b => b.Title == "Test DeletePersonForGivenBarbequeSuccess");
+                Assert.NotNull(savedBarbeque);
+                barbequeId = savedBarbeque.Id;
+                personId = savedBarbeque.Persons.First().Id;
             }
-            
+
             // Act
-            var httpResponse = await HttpClient.DeleteAsync($"api/barbeques/{barbequeId}/persons/{personId}");
+            var statusCode = await HttpClient.Delete($"api/barbeques/{barbequeId}/persons/{personId}");
 
             // Assert
-            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
-            using (var dbContext = factory.GetDbContext(factory))
+            Assert.Equal(HttpStatusCode.NoContent, statusCode);
+            using (var dbContext = factory.GetDbContext())
             {
                 var updatedBarbeque = dbContext.Barbeques.Include(b => b.Persons).FirstOrDefault(b => b.Id == barbequeId);
                 Assert.NotNull(updatedBarbeque);

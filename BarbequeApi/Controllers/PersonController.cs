@@ -24,13 +24,10 @@ namespace BarbequeApi.Controllers
 
       if(!successful)
       {
-        if (!successful)
+        switch (errorMessages.First()[..3])
         {
-          switch (errorMessages.First()[..3])
-          {
-            case "400": return BadRequest(errorMessages);
-            case "404": return NotFound(errorMessages);
-          }
+          case "400": return BadRequest(errorMessages);
+          case "404": return NotFound(errorMessages);
         }
       }
 

@@ -30,24 +30,22 @@ namespace BarbequeApi.Tests.IntegrationTests
         public async Task CreateBarbequeWithoutPersonsSuccess()
         {
             // Arrange
-            var bbqTitle = "Churrasco de teste sem pessoas";
+            var barbequeTitle = "Churrasco de teste sem pessoas";
 
             var barbequeDto = new BarbequeDto
             {
-                Title = bbqTitle
+                Title = barbequeTitle
             };
 
             // Act
-            var httpResponse = await HttpClient.PostAsync(
-                $"api/barbeques",
-                new StringContent(JToken.FromObject(barbequeDto).ToString(), Encoding.UTF8, "application/json"));
+            var (statusCode, _) = await HttpClient.PostAsync($"api/barbeques", barbequeDto);
 
 
             // Assert
-            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
-            var dbContext = factory.GetDbContext(factory);
+            Assert.Equal(HttpStatusCode.NoContent,statusCode);
+            var dbContext = factory.GetDbContext();
             var actualBarbeque = dbContext.Barbeques
-                .FirstOrDefault(barbeque => barbeque.Title == bbqTitle);
+                .FirstOrDefault(barbeque => barbeque.Title == barbequeTitle);
 
             Assert.NotNull(actualBarbeque);
             Assert.NotEqual(0, actualBarbeque.Id);
@@ -77,14 +75,12 @@ namespace BarbequeApi.Tests.IntegrationTests
             };
 
             // Act
-            var httpResponse = await HttpClient.PostAsync(
-                $"api/barbeques",
-                new StringContent(JToken.FromObject(barbequeDto).ToString(), Encoding.UTF8, "application/json"));
+            var (statusCode, _)  = await HttpClient.PostAsync("api/barbeques", barbequeDto);
 
 
             // Assert
-            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
-            var dbContext = factory.GetDbContext(factory);
+            Assert.Equal(HttpStatusCode.NoContent, statusCode);
+            var dbContext = factory.GetDbContext();
             var actualBarbeque = dbContext.Barbeques.Include(b => b.Persons)
                 .FirstOrDefault(barbeque => barbeque.Title == bbqTitle);
 
@@ -97,7 +93,7 @@ namespace BarbequeApi.Tests.IntegrationTests
                 person.BarbequeId = actualBarbeque.Id;
             }
 
-            AssertExpectedBarbequeEqualsToSaved(expectedBarbeque, actualBarbeque);
+            AssertExpectedBarbequeEqualsToSaved(expectedBarbeque, Translator.ToBarbequeDto(actualBarbeque));
         }
 
         [Fact]
@@ -129,14 +125,12 @@ namespace BarbequeApi.Tests.IntegrationTests
             };
 
             // Act
-            var httpResponse = await HttpClient.PostAsync(
-                $"api/barbeques",
-                new StringContent(JToken.FromObject(barbequeDto).ToString(), Encoding.UTF8, "application/json"));
+            var (statusCode, _) = await HttpClient.PostAsync($"api/barbeques", barbequeDto);
 
 
             // Assert
-            Assert.Equal(HttpStatusCode.NoContent, httpResponse.StatusCode);
-            var dbContext = factory.GetDbContext(factory);
+            Assert.Equal(HttpStatusCode.NoContent, statusCode);
+            var dbContext = factory.GetDbContext();
             var actualBarbeque = dbContext.Barbeques.Include(b => b.Persons)
                 .FirstOrDefault(barbeque => barbeque.Title == bbqTitle);
 
@@ -149,7 +143,7 @@ namespace BarbequeApi.Tests.IntegrationTests
                 person.BarbequeId = actualBarbeque.Id;
             }
 
-            AssertExpectedBarbequeEqualsToSaved(expectedBarbeque, actualBarbeque);
+            AssertExpectedBarbequeEqualsToSaved(expectedBarbeque, Translator.ToBarbequeDto(actualBarbeque));
         }
 
         [Fact]
@@ -173,24 +167,23 @@ namespace BarbequeApi.Tests.IntegrationTests
                 }
             };
 
-            var dbContext = factory.GetDbContext(factory);
+            var dbContext = factory.GetDbContext();
 
             dbContext.Barbeques.Add(barbequeToInsert);
             var successful = dbContext.SaveChanges() > 0;
             var desiredId = dbContext.Barbeques.First(b => b.Title == "Motivo de teste").Id;
 
             // Act
-            var httpResponse = await HttpClient.GetAsync($"api/barbeques/{desiredId}");
+            var (statusCode, barbequeDto, _) = await HttpClient.GetAsync<BarbequeDto>($"api/barbeques/{desiredId}");
 
             // Assert
-            Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
-            var responseAsString = await httpResponse.Content.ReadAsStringAsync();
-            var actualBarbeque = JToken.Parse(responseAsString).ToObject<Barbeque>();
-            Assert.NotNull(actualBarbeque);
+            Assert.Equal(HttpStatusCode.OK, statusCode);
+
+            Assert.NotNull(barbequeDto);
             Assert.True(successful);
-            Assert.NotEqual(0, actualBarbeque.Id);
-            Assert.Equal(desiredId, actualBarbeque.Id);
-            AssertExpectedBarbequeEqualsToSaved(barbequeToInsert, actualBarbeque);
+            Assert.NotEqual(0, barbequeDto.Id);
+            Assert.Equal(desiredId, barbequeDto.Id);
+            AssertExpectedBarbequeEqualsToSaved(barbequeToInsert, barbequeDto);
         }
 
         [Fact]
@@ -205,16 +198,16 @@ namespace BarbequeApi.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.BadRequest, httpResponse.StatusCode);
         }
 
-        private void AssertExpectedBarbequeEqualsToSaved(Barbeque barbequeToInsert, Barbeque actualBarbeque)
+        private void AssertExpectedBarbequeEqualsToSaved(Barbeque barbequeToInsert, BarbequeDto actualBarbequeDto)
         {
-            Assert.Equal(barbequeToInsert.Title, actualBarbeque.Title);
-            Assert.Equal(barbequeToInsert.Date, actualBarbeque.Date);
-            Assert.Equal(barbequeToInsert.Notes, actualBarbeque.Notes);
+            Assert.Equal(barbequeToInsert.Title, actualBarbequeDto.Title);
+            Assert.Equal(barbequeToInsert.Date, actualBarbequeDto.Date);
+            Assert.Equal(barbequeToInsert.Notes, actualBarbequeDto.Notes);
 
-            Assert.Equal(barbequeToInsert.Persons.Count, actualBarbeque.Persons.Count);
+            Assert.Equal(barbequeToInsert.Persons.Count, actualBarbequeDto.Persons.Count);
 
             var expectedPersons = barbequeToInsert.Persons.ToList();
-            var actualPersons = actualBarbeque.Persons.ToList();
+            var actualPersons = actualBarbequeDto.Persons.ToList();
             for (int i = 0; i < expectedPersons.Count; i++) // im aware of assert.collection and assert.all but...
             {
                 var expectedPersonToVerify = expectedPersons[i];

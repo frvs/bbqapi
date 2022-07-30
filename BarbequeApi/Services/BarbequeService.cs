@@ -16,6 +16,7 @@ namespace BarbequeApi.Services
   public class BarbequeService : IBarbequeService
   {
     private readonly IBarbequeRepository barbequeRepository;
+    private readonly BarbequeValidator validator;
 
     public BarbequeService(IBarbequeRepository barbequeRepository)
     {
@@ -35,7 +36,7 @@ namespace BarbequeApi.Services
       var barbeque = Translator.ToBarbeque(barbequeDto);
       FillDefaultValues(barbeque); 
 
-      bool successful = barbequeRepository.Save(barbeque);
+      var successful = barbequeRepository.Save(barbeque);
 
       if (!successful)
       {

@@ -7,8 +7,8 @@ namespace BarbequeApi.Validators
   {
     public override (bool, List<string>) Validate(PersonDto personDto)
     {
-      bool isValid = true;
-      List<string> errors = new List<string>();
+      var isValid = true;
+      List<string> errors = new();
 
       if (personDto == null)
       {

@@ -98,7 +98,7 @@ namespace BarbequeApi.Tests.UnitTests
             {
                 Assert.Single(errorMessages);
                 Assert.Equal(
-                    "400: BarbequeDto.Date should be equals or after January 1, 1753.",
+                    "400: BarbequeDto.Date should be equal or after January 1st, 1753.",
                     errorMessages.First());
             }
         }

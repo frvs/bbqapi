@@ -35,9 +35,9 @@ namespace BarbequeApi.Tests.IntegrationTests
             });
         }
 
-        public DataContext GetDbContext(TestWebApp<TStartup> factory)
+        public DataContext GetDbContext()
         {
-            var scope = factory.Server.Services.CreateScope();
+            var scope = Server.Services.CreateScope();
 
             return scope.ServiceProvider.GetRequiredService<DataContext>();
         }

@@ -8,7 +8,7 @@ namespace BarbequeApi.Validators
   {
     public override (bool, List<string>) Validate(BarbequeDto barbequeDto)
     {
-      bool isValid = true;
+      var isValid = true;
       List<string> errors = new List<string>();
       var sqlServerMinimumDateTime = new DateTime(1753, 1, 1);
 
@@ -43,10 +43,10 @@ namespace BarbequeApi.Validators
         }
       }
 
-      if (barbequeDto.Date < sqlServerMinimumDateTime) // sqlserver minimum date
+      if (barbequeDto.Date < sqlServerMinimumDateTime)
       {
         isValid &= false;
-        errors.Add("400: BarbequeDto.Date should be equals or after January 1, 1753.");
+        errors.Add("400: BarbequeDto.Date should be equal or after January 1st, 1753.");
       }
 
       if (barbequeDto.Id != 0) // trying to send an existing barbeque

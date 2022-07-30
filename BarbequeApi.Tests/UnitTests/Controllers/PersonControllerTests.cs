@@ -50,7 +50,7 @@ namespace BarbequeApi.Tests.UnitTests
             serviceMock.Setup(s => s.Create(barbequeId, obj)).Returns((false, new List<string> { "400: PersonDto should not be null." }));
 
             // Act
-            var response = await controller.Create(barbequeId, obj) as BadRequestResult;
+            var response = await controller.Create(barbequeId, obj) as BadRequestObjectResult;
 
             // Assert
             Assert.NotNull(response);
