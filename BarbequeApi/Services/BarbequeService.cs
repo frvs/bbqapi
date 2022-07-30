@@ -33,7 +33,7 @@ namespace BarbequeApi.Services
       }
 
       var barbeque = Translator.ToBarbeque(barbequeDto);
-      FillDefaultValues(barbeque);
+      FillDefaultValues(barbeque); 
 
       bool successful = barbequeRepository.Save(barbeque);
 

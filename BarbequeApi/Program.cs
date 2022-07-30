@@ -55,7 +55,7 @@ void Seed()
 
         dataContext.Barbeques.Add(new Barbeque
         {
-            Title = "Comemoração de job novo",
+            Title = "Comemoracao de job novo",
             Date = DateTime.Now,
             Persons = new List<Person>
             {

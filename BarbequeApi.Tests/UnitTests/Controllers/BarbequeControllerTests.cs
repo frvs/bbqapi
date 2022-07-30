@@ -25,16 +25,16 @@ namespace BarbequeApi.Tests.UnitTests
         public async Task CreateBarbequeSuccess()
         {
             // Arrange
-            var obj = new BarbequeDto();
-            serviceMock.Setup(s => s.Create(obj)).Returns((true, new List<string>()));
+            var barbequeDto = new BarbequeDto();
+            serviceMock.Setup(s => s.Create(barbequeDto)).Returns((true, new List<string>()));
 
             // Act
-            var response = await controller.Create(obj);
+            var response = await controller.Create(barbequeDto);
 
             // Assert
-            var statusResult = Assert.IsType<NoContentResult>(response);
-            Assert.Equal((int)HttpStatusCode.NoContent, statusResult.StatusCode);
-            serviceMock.Verify(s => s.Create(obj), Times.Once, "IBarbequeService.Create should be called once.");
+            var result = Assert.IsType<NoContentResult>(response);
+            Assert.Equal((int)HttpStatusCode.NoContent, result.StatusCode);
+            serviceMock.Verify(s => s.Create(barbequeDto), Times.Once, "IBarbequeService.Create should be called once.");
         }
 
         [Fact]
@@ -48,27 +48,31 @@ namespace BarbequeApi.Tests.UnitTests
             var response = await controller.Get(barbequeId);
 
             // Assert
-            var statusResult = Assert.IsType<OkObjectResult>(response);
-            Assert.Equal((int)HttpStatusCode.OK, statusResult.StatusCode);
+            var result = Assert.IsType<OkObjectResult>(response);
+            Assert.Equal((int)HttpStatusCode.OK, result.StatusCode);
             serviceMock.Verify(s => s.Get(barbequeId), Times.Once, "IBarbequeService.Get should be called once.");
         }
 
         [Fact]
         public async Task CreateBarbequeFailure()
         {
+            // TODO: refactor
+            
             // Arrange
-            var obj = new BarbequeDto();
-            serviceMock.Setup(s => s.Create(obj)).Throws(new Exception("random exception"));
+            var barbequeDto = new BarbequeDto();
+            serviceMock.Setup(s => s.Create(barbequeDto)).Throws(new Exception("random exception"));
 
             // Act
-            Assert.ThrowsAsync<Exception>(() => controller.Create(obj));
+            Assert.ThrowsAsync<Exception>(() => controller.Create(barbequeDto));
             
-            serviceMock.Verify(s => s.Create(obj), Times.Once, "IBarbequeService.Create should be called once.");
+            serviceMock.Verify(s => s.Create(barbequeDto), Times.Once, "IBarbequeService.Create should be called once.");
         }
 
         [Fact]
         public async Task GetBarbequeFailure()
         {
+            // TODO: refactor
+
             // Arrange
             var barbequeId = "1";
 

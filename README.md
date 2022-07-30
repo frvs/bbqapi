@@ -56,8 +56,12 @@ decidi por nao utilizar interfaces pros validators e foi bom pq poupou tempo nos
 (e ainda deu pra brincar com abstract class)
 os testes de unidade ajudaram bastante a achar pequenos bugs.
 
-- error handler no personservice, testes unitários dos servicos (fazer de person e revisar de barbeque) => postergar,  teste unitário do dto (=>), 
+- error handler no personservice, testes unitários dos servicos (fazer de person e revisar de barbeque) => postergar,  teste unitário do dto (=>) done, 
 revisar namings, strings e geralzao (pq o indent=2 n funciona mais?). depois voltar pra => legibilidade e reaproveitamento), mudar a infra do banco
+
+- naming review
+barbeque => barbecue
+(deixar o banco shared entre os testes está os tornando intermitentes)
 
 # requisitos
 Incluir um novo churrasco com data, descrição e observações adicionais;  

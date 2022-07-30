@@ -14,8 +14,8 @@ namespace BarbequeApi.Tests.UnitTests
         public async Task ValidateBarbequeDtoReturnsFalseBeucaseOfBeingNull()
         {
             var barbequeValidator = new BarbequeValidator();
-            var (succesful, errorMessages) = barbequeValidator.Validate(null);
-            Assert.False(succesful);
+            var (successful, errorMessages) = barbequeValidator.Validate(null);
+            Assert.False(successful);
             Assert.Single(errorMessages);
             Assert.Equal("400: BarbequeDto should not be null.", errorMessages.First());
         }
@@ -27,13 +27,13 @@ namespace BarbequeApi.Tests.UnitTests
         public async Task ValidateBarbequeDtoReturnsFalseBeucaseOfTitle(string title)
         {
             var barbequeValidator = new BarbequeValidator();
-            var (succesful, errorMessages) = barbequeValidator.Validate(new BarbequeDto
+            var (successful, errorMessages) = barbequeValidator.Validate(new BarbequeDto
             {
                 Title = title, 
                 Persons = null, 
                 Date = new DateTime(2000, 1, 1)
             });
-            Assert.False(succesful);
+            Assert.False(successful);
             Assert.Single(errorMessages);
             Assert.Equal(
                 "400: BarbequeDto.Title should not be null, empty string or white spaces.", 
@@ -45,7 +45,7 @@ namespace BarbequeApi.Tests.UnitTests
         {
             var barbequeValidator = new BarbequeValidator();
 
-            var (succesful, errorMessages) = barbequeValidator.Validate(new BarbequeDto
+            var (successful, errorMessages) = barbequeValidator.Validate(new BarbequeDto
             {
                 Title = "Barbeque",
                 Persons = new List<PersonDto>()
@@ -63,7 +63,7 @@ namespace BarbequeApi.Tests.UnitTests
                 Date = new DateTime(2000, 1, 1)
             });
 
-            Assert.False(succesful);
+            Assert.False(successful);
             Assert.Single(errorMessages);
             Assert.Equal(
                 "400: BarbequeDto.Person[0] is not valid: 400: PersonDto.FoodMoneyShare should not be negative.",
@@ -72,13 +72,11 @@ namespace BarbequeApi.Tests.UnitTests
 
         [Theory]
         [MemberData(nameof(DateTimeRangeForSqlServer))]
-        public async Task ValidateBarbequeDtoReturnsFalseBecauseOfSqlServerDateTimeLimitations(
-            DateTime date, 
-            bool successful)
+        public async Task ValidateBarbequeDtoReturnsFalseBecauseOfSqlServerDateTimeLimitations(DateTime date)
         {
             var barbequeValidator = new BarbequeValidator();
 
-            var (succesful, errorMessages) = barbequeValidator.Validate(new BarbequeDto
+            var (successful, errorMessages) = barbequeValidator.Validate(new BarbequeDto
             {
                 Title = "Barbeque",
                 Persons = new List<PersonDto>()
@@ -96,7 +94,7 @@ namespace BarbequeApi.Tests.UnitTests
                 Assert.Empty(errorMessages);
             }
             
-            if(!succesful)
+            if(!successful)
             {
                 Assert.Single(errorMessages);
                 Assert.Equal(
@@ -108,9 +106,9 @@ namespace BarbequeApi.Tests.UnitTests
         public static IEnumerable<object[]> DateTimeRangeForSqlServer =>
         new List<object[]>
         {
-            new object[] { new DateTime(1751, 11, 30), false },
-            new object[] { new DateTime(1753, 1, 1), true },
-            new object[] { new DateTime(2000, 1, 1), true }
+            new object[] { new DateTime(1751, 11, 30) },
+            new object[] { new DateTime(1753, 1, 1) },
+            new object[] { new DateTime(2000, 1, 1) }
         };
 
     }

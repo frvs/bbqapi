@@ -42,13 +42,13 @@ namespace BarbequeApi.Tests.UnitTests
         public async Task ValidatepersonDtoReturnsFalseBeucaseOfNegativeMoneyShare()
         {
             var barbequeValidator = new PersonValidator();
-            var (succesful, errorMessages) = barbequeValidator.Validate(new PersonDto()
+            var (successful, errorMessages) = barbequeValidator.Validate(new PersonDto()
             {
                 Name = "Test person",
                 BeverageMoneyShare = -10,
                 FoodMoneyShare = -50
             });
-            Assert.False(succesful);
+            Assert.False(successful);
             Assert.Equal(2, errorMessages.Count);
             Assert.Equal(
                 "400: PersonDto.BeverageMoneyShare should not be negative.",

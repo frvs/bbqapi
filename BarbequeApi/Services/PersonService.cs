@@ -72,7 +72,7 @@ namespace BarbequeApi.Services
 
       var person = Translator.ToPerson(personDto);
       person.BarbequeId = barbequeId;
-      FillDefaultValues(person, barbeque);
+      FillDefaultValues(person);
 
       var successfulDatabaseChanges = repository.Save(person);
 
@@ -128,18 +128,18 @@ namespace BarbequeApi.Services
         return (successful, errorMessages);
       }
 
-      var succesful = repository.Delete(barbeque, personId);
+      var successfulDatabaseChanges = repository.Delete(barbeque, personId);
 
-      if (!succesful)
+      if (!successfulDatabaseChanges)
       {
-        successful &= false;
+        successful &= successfulDatabaseChanges;
         errorMessages.Add("404: Error in PersonRepository.Delete()");
       }
 
       return (successful, errorMessages);
     }
 
-    private void FillDefaultValues(Person person, Barbeque barbequeDto)
+    private void FillDefaultValues(Person person)
     {
       person.Name = string.IsNullOrWhiteSpace(person.Name) ? "Jane Doe" : person.Name;
 
