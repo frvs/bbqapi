@@ -29,15 +29,15 @@ namespace BarbequeApi.Tests.UnitTests
             var barbequeValidator = new BarbequeValidator();
             var (successful, errorMessages) = barbequeValidator.Validate(new BarbequeDto
             {
-                Title = title, 
-                Persons = null, 
+                Title = title,
+                Persons = null,
                 Date = new DateTime(2000, 1, 1)
             });
             Assert.False(successful);
             Assert.Single(errorMessages);
             Assert.Equal(
-                "400: BarbequeDto.Title should not be null, empty string or white spaces.", 
-                errorMessages.First());
+              "400: BarbequeDto.Title should not be null, empty string or white spaces.",
+              errorMessages.First());
         }
 
         [Fact]
@@ -52,9 +52,9 @@ namespace BarbequeApi.Tests.UnitTests
                 {
                     new PersonDto()
                     {
-                        Name = "Invalid test user", 
+                        Name = "Invalid test user",
                         FoodMoneyShare = -10
-                    }, 
+                    },
                     new PersonDto()
                     {
                         Name = "Valid test user"
@@ -66,8 +66,8 @@ namespace BarbequeApi.Tests.UnitTests
             Assert.False(successful);
             Assert.Single(errorMessages);
             Assert.Equal(
-                "400: BarbequeDto.Person[0] is not valid: 400: PersonDto.FoodMoneyShare should not be negative.",
-                errorMessages.First());
+              "400: BarbequeDto.Person[0] is not valid: 400: PersonDto.FoodMoneyShare should not be negative.",
+              errorMessages.First());
         }
 
         [Theory]
@@ -89,17 +89,17 @@ namespace BarbequeApi.Tests.UnitTests
                 Date = date
             });
 
-            if(successful)
+            if (successful)
             {
                 Assert.Empty(errorMessages);
             }
-            
-            if(!successful)
+
+            if (!successful)
             {
                 Assert.Single(errorMessages);
                 Assert.Equal(
-                    "400: BarbequeDto.Date should be equal or after January 1st, 1753.",
-                    errorMessages.First());
+                  "400: BarbequeDto.Date should be equal or after January 1st, 1753.",
+                  errorMessages.First());
             }
         }
 

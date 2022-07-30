@@ -16,23 +16,23 @@ namespace BarbequeApi.Repositories
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<Barbeque>()
-          .HasKey(x => x.Id);
+      .HasKey(x => x.Id);
 
       modelBuilder.Entity<Barbeque>()
-          .Property(x => x.Id)
-          .ValueGeneratedOnAdd();
+      .Property(x => x.Id)
+      .ValueGeneratedOnAdd();
 
       modelBuilder.Entity<Person>()
-          .HasKey(x => x.Id);
+      .HasKey(x => x.Id);
 
       modelBuilder.Entity<Person>()
-          .Property(x => x.Id)
-          .ValueGeneratedOnAdd();
+      .Property(x => x.Id)
+      .ValueGeneratedOnAdd();
 
       modelBuilder.Entity<Person>()
-          .HasOne(s => s.Barbeque)
-          .WithMany(g => g.Persons)
-          .HasForeignKey(s => s.BarbequeId);
+      .HasOne(s => s.Barbeque)
+      .WithMany(g => g.Persons)
+      .HasForeignKey(s => s.BarbequeId);
     }
 
     public DbSet<Barbeque> Barbeques { get; set; }

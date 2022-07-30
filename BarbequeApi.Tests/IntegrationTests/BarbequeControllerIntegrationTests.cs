@@ -1,13 +1,11 @@
 ﻿using BarbequeApi.Models;
 using BarbequeApi.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -38,14 +36,13 @@ namespace BarbequeApi.Tests.IntegrationTests
             };
 
             // Act
-            var (statusCode, _) = await HttpClient.PostAsync($"api/barbeques", barbequeDto);
-
+            var (statusCode, _) = await HttpClient.PostAsync("api/barbeques", barbequeDto);
 
             // Assert
-            Assert.Equal(HttpStatusCode.NoContent,statusCode);
+            Assert.Equal(HttpStatusCode.NoContent, statusCode);
             var dbContext = factory.GetDbContext();
             var actualBarbeque = dbContext.Barbeques
-                .FirstOrDefault(barbeque => barbeque.Title == barbequeTitle);
+              .FirstOrDefault(barbeque => barbeque.Title == barbequeTitle);
 
             Assert.NotNull(actualBarbeque);
             Assert.NotEqual(0, actualBarbeque.Id);
@@ -75,14 +72,13 @@ namespace BarbequeApi.Tests.IntegrationTests
             };
 
             // Act
-            var (statusCode, _)  = await HttpClient.PostAsync("api/barbeques", barbequeDto);
-
+            var (statusCode, _) = await HttpClient.PostAsync("api/barbeques", barbequeDto);
 
             // Assert
             Assert.Equal(HttpStatusCode.NoContent, statusCode);
             var dbContext = factory.GetDbContext();
             var actualBarbeque = dbContext.Barbeques.Include(b => b.Persons)
-                .FirstOrDefault(barbeque => barbeque.Title == bbqTitle);
+              .FirstOrDefault(barbeque => barbeque.Title == bbqTitle);
 
             Assert.NotNull(actualBarbeque);
             Assert.NotEqual(0, actualBarbeque.Id);
@@ -111,10 +107,10 @@ namespace BarbequeApi.Tests.IntegrationTests
                 {
                     new PersonDto
                     {
-                        BeverageMoneyShare = 20,
-                        FoodMoneyShare = 20,
-                        Name = "Pessoa teste 1"
-                    },
+                            BeverageMoneyShare = 20,
+                            FoodMoneyShare = 20,
+                            Name = "Pessoa teste 1"
+                    },    
                     new PersonDto
                     {
                         BeverageMoneyShare = 0,
@@ -125,14 +121,13 @@ namespace BarbequeApi.Tests.IntegrationTests
             };
 
             // Act
-            var (statusCode, _) = await HttpClient.PostAsync($"api/barbeques", barbequeDto);
-
+            var (statusCode, _) = await HttpClient.PostAsync("api/barbeques", barbequeDto);
 
             // Assert
             Assert.Equal(HttpStatusCode.NoContent, statusCode);
             var dbContext = factory.GetDbContext();
             var actualBarbeque = dbContext.Barbeques.Include(b => b.Persons)
-                .FirstOrDefault(barbeque => barbeque.Title == bbqTitle);
+              .FirstOrDefault(barbeque => barbeque.Title == bbqTitle);
 
             Assert.NotNull(actualBarbeque);
             Assert.NotEqual(0, actualBarbeque.Id);

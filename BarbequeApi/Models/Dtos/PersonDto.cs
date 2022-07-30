@@ -28,10 +28,10 @@
       var indexOfFirstSpaceSeparator = name.IndexOf(" ");
 
       return (
-          name.Substring(0, 1).ToUpper()
-          + name.Substring(1, indexOfFirstSpaceSeparator - 1)
-          + " "
-          + name.Substring(indexOfFirstSpaceSeparator + 1, 1).ToUpper() + ".");
+      name.Substring(0, 1).ToUpper()
+      + name.Substring(1, indexOfFirstSpaceSeparator - 1)
+      + " "
+      + name.Substring(indexOfFirstSpaceSeparator + 1, 1).ToUpper() + ".");
     }
   }
 }

@@ -1,14 +1,17 @@
 # Rules in this file were initially inferred by Visual Studio IntelliCode from the C:\Users\lucas.frois\dev\bbqapi\BarbequeApi codebase based on best match to current usage at 22/07/2022
 # You can modify the rules from these initially generated values to suit your own policies
 # You can learn more about editorconfig here: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
+root=true
 [*.cs]
-tab_width=2
+indent_style = space
 indent_size=2
+end_of_line=crlf
+trim_trailing_whitespace:true
 
 #Core editorconfig formatting - indentation
 
 #use soft tabs (spaces) for indentation
-indent_style = space
+
 
 #Formatting - new line options
 

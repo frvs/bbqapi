@@ -5,92 +5,41 @@ fiquem à vontade (quem for revisar) pra ler e questionar tudo.
 
 link do swagger: https://bbqapi.herokuapp.com/swagger/index.html \o/  
 
-# decisoes técnicas
-- código em inglês, docs e eventuais comentários (serão removidos até o final) em pt-br, commits em inglês  
--- não sei se quem vai revisar sabe/prefere em inglês a doc, por exemplo. eu preferia em inglês.  
+## descricao do projeto
 
-- comecei pelos models, mais especificamente Dtos  
-- depois (agora), vou começar a doc e o tracking pelo Git  
-- ordem das entregas desejadas:  
-	* mvp sem testes, sem validações, sem infra, em csharp  
-	* mvp com testes, sem validações, sem infra, em csharp  
-	* mvp com testes, com validações, sem infra, em csharp  
-	* mvp com testes, com validações, com infra, em csharp  
-	* mvp sem testes, sem validações, sem infra, em fsharp  
-	... acho que já deu pra perceber o fluxo das intenções  
-	 
-- nao vou trabalhar com branches nesse repo. pra nao acharem que tenho maus costumes:
-nao gosto de master/main/prod + development + staging (multibranching) (muito trabalho, git flow é chato)
-gosto de uma branch pra prod + branches de desenvolvimento =) (github flow é massa)
 
-- talvez eu tenha adicionado um pouco de overengineering nos Dtos, fazendo eles calcularem coisas pro front que
-nao precisavam MAS: eu sigo a ideia que o front tem que ser o mais rápido possível e o back tem que entregar as 
-coisas o mais mastigado possível (pelo seu poder de performance). mais pra frente eu volto nessa decisão e reviso
-(aqui me refiro as props q são lambdas =>)
+## requisitos
+- dotnet sdk/runtime --version 6.0.0 ou superior
+- editor como visual studio ou vscode para debugging ou review
 
-- nota mental: minimal api é horrível.
+## como rodar
+a aplicação localmente
+- ```git clone https://github.com/frvs/bbqapi.git```
+- ```cd bbqapi/BarbequeApi```
+- ```dotnet restore```
+- ```dotnet build```
+- ```dotnet run```
+- abrir https://localhost:7195/swagger/index.html e fazer suas requests pelo swagger (ou postman/insomnia/curl/etc)
 
-- é engraçado que o código de desafio técnicos é sempre muito diferente de código da vida real.
-sobre a divisão de pastas, pra desafios técnicos eu preferiria fazer tudo na controller, mas opto por services/repositories por passar uma impressão melhor.
-em projetos reais, eu prefiro queries/commands nos repositórios (se necessário), pois acho a organização melhor (e escala melhor) =)
-... também, eu sempre fico em dúvida: abusar de libs pra ir mais rápido ou fazer tudo na mão em desafios pq eu nao preciso de libs? 
-aqui, vou começar fazendo as coisas na mão (translators e validators).
+os testes  
+- ```git clone https://github.com/frvs/bbqapi.git```
+- ```cd bbqapi/BarbequeApi.Tests```
+- ```dotnet restore```
+- ```dotnet build```
+- ```dotnet test```
 
-- nota: estou *tentando* deixar os commits organizados. o histórico poderá ser acompanhado por lá.
-
-- estou optando pelo banco inmemory por enquanto. talvez depois eu coloque sqlserver num container ou algo assim.
-- efcore faz os relacionamentos 1:n automagicamente, ef6 precisa do onconfiguring
-
-- yay! terminei o mvp. nesse momento eu optei por não tratar os erros adequadamente, só fazer funcionar.
-agora nas validacoes eu posso usar o fluent, flunt ou ir na mão.
-pros testes, primeiro integração e depois unidade.
-além disso, está no roadmap deploy (heroku ou azure) e trocar o banco de inmemory pra sqlite ou sqlserver
-
-- fiz primeiro deploy, amanhã faço os testes. terça validações e quarta troco o banco. será?
-
-- próximos passos, em ordem: validações, refactoring de tudo (visando legibilidade e reaproveitamento), mudar a infra do banco (da app e de testes).
-depois, se der tempo, front e melhorias de infra (pensando aqui se vale a pena colocar isso no azure pra fazer algo mais 'requintado').
-btw apesar de gostar mt de TDD, nao estou utilizando. primeiro mudo a impl., depois o teste. =(
-
-decidi por nao utilizar interfaces pros validators e foi bom pq poupou tempo nos testes sem ter q fazer mock. bom tradeoff 
-(e ainda deu pra brincar com abstract class)
-os testes de unidade ajudaram bastante a achar pequenos bugs.
-
-- error handler no personservice, testes unitários dos servicos (fazer de person e revisar de barbeque) => postergar,  teste unitário do dto (=>) done, 
-revisar namings, strings e geralzao (pq o indent=2 n funciona mais?). depois voltar pra => legibilidade e reaproveitamento), mudar a infra do banco
-
-- naming review
-barbeque => barbecue
-(deixar o banco shared entre os testes está os tornando intermitentes) => resolvido
-queria mt colocar sqlserver/postgres mas daí precisaria de um aws/azure free tier. entre sqlite e inmemory, tanto faz, inmemory pela praticidade.
-acho que vou dar o teste como done hoje (sexta), sábado faço o front e domingo reviso os testes do back.
-fazer readme e notes.md no domingo também.
-
-# requisitos
+## requisitos de desenvolvimento
 Incluir um novo churrasco com data, descrição e observações adicionais;  
 Adicionar e remover participantes (colocando o seu valor de contribuição);  
 Visualizar os detalhes do churrasco, total de participantes e valor arrecadado;  
+Colocar um valor sugerido por usuário de contribuição (valor com e sem bebida inclusa;
 
-Colocar um valor sugerido por usuário de contribuição (valor com e sem bebida inclusa); - ?  
-- há um valor de comida e um valor de bebida na hora de adicionar uma pessoa no churrasco  
-- a pessoa a ser adicionada deve escolher se vai pagar somente comida, somente bebida ou ambos (e quanto)  
-- o valor sugerido pode ser algo hard-coded (fixo) (ou pode ser uma média...)  
-pela simplicidade:  
-nao precisamos do toggle, e podemos ter as duas formas de 'prediction' do valor caso não informado  
-
-# models 
+## modelos 
 
 bbq { date: datetime, title: string, notes: string?, persons: list<person> }  
 person { name: string, value: decimal, foodValue: decimal, drinksValue: decimal }  
 
-# code review
-prediction de valores? desfeito
-haspaid pra person? nao sei se precisa. adicionar? se sobrar tempo
-teste pro dtos => fazer
-pegar todos os churrascos? tela de login? se não achar nada pra fazer hoje(qui) e amanhã, faço.
-esperam o front? se houver tempo suficiente, faço no final de semana. e em vanilla js.
-
-# endpoints
+## endpoints
 
 ```
 GET api/barbeques/{id}  
@@ -100,3 +49,11 @@ POST api/barbeques
 POST api/barbeques/{id}/persons  
 DELETE api/barbeques/{barbequeId}/persons/{personId}  
 ```
+
+## principais commits pra revisar
+dica: ```git checkout [commitId]``` para atualizar o código para o estado desejado
+- ```734920eb756dea22fbcff1358a0fbdc2e5a0c4d9``` initial commit: criei a estrutura básica de pastas 
+- ```f5b248ff32a3d7f49a29b0ba54db9750cc2ff707``` adding services to barbeque controller: lógica básica nos services/repositories 
+- ```b4a67495bfe8c02591ff74b052b29bd04a0101c4``` yay! finishing mvp api: terminei o mvp. sem muita coisa mas aqui o básico tava feito
+- ```a6657c83b6d62092e8d904a3a47ed208fb6238eb``` fix integration tests for person: nesse ponto os testes de integração estavam feitos
+- ```36f7ffd9f934d5b84b6877a3caaebd792c056fd3``` add notification pattern: melhorei as validações e coloquei o notification pattern. aqui todos os testes (unit/integration) tavam bons.

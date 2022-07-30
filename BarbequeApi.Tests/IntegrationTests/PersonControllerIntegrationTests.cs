@@ -49,7 +49,7 @@ namespace BarbequeApi.Tests.IntegrationTests
             Assert.NotNull(desiredPerson);
             Assert.Equal(barbeque.Id, desiredPerson.BarbequeId);
             var expectedPerson = Translator.ToPerson(personDto);
-            AssertExpectedPersonEqualsToSaved(expectedPerson, desiredPerson);            
+            AssertExpectedPersonEqualsToSaved(expectedPerson, desiredPerson);
         }
 
         [Fact]

@@ -13,14 +13,14 @@ namespace BarbequeApi.Tests
         {
             var httpResponse = await httpClient.GetAsync(path);
             var responseAsString = await httpResponse.Content.ReadAsStringAsync();
-            if(!httpResponse.IsSuccessStatusCode)
+            if (!httpResponse.IsSuccessStatusCode)
             {
                 if (string.IsNullOrEmpty(responseAsString))
                 {
                     responseAsString = string.Empty;
                 }
 
-                return (httpResponse.StatusCode, (T) default, responseAsString);
+                return (httpResponse.StatusCode, (T)default, responseAsString);
             }
             var obj = JToken.Parse(responseAsString).ToObject<T>();
 

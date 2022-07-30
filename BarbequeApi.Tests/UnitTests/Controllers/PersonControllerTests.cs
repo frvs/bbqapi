@@ -36,9 +36,9 @@ namespace BarbequeApi.Tests.UnitTests
             var statusResult = Assert.IsType<NoContentResult>(response);
             Assert.Equal((int)HttpStatusCode.NoContent, statusResult.StatusCode);
             serviceMock.Verify(s => s.Create(
-                barbequeId, obj), 
-                Times.Once,
-                "IPersonService.Create should be called once.");
+              barbequeId, obj),
+              Times.Once,
+              "IPersonService.Create should be called once.");
         }
 
         [Fact]
@@ -56,9 +56,9 @@ namespace BarbequeApi.Tests.UnitTests
             Assert.NotNull(response);
             Assert.Equal((int)HttpStatusCode.BadRequest, response.StatusCode);
             serviceMock.Verify(s => s.Create(
-                barbequeId, obj),
-                Times.Once,
-                "IPersonService.Create should be called once.");
+              barbequeId, obj),
+              Times.Once,
+              "IPersonService.Create should be called once.");
         }
 
         [Fact]
@@ -77,9 +77,9 @@ namespace BarbequeApi.Tests.UnitTests
             var statusResult = Assert.IsType<NoContentResult>(response);
             Assert.Equal((int)HttpStatusCode.NoContent, statusResult.StatusCode);
             serviceMock.Verify(s => s.Delete(
-                barbequeId, personId),
-                Times.Once,
-                "IPersonService.Delete should be called once.");
+              barbequeId, personId),
+              Times.Once,
+              "IPersonService.Delete should be called once.");
         }
 
         [Fact]
@@ -93,9 +93,9 @@ namespace BarbequeApi.Tests.UnitTests
             // Act and assert
             Assert.ThrowsAsync<Exception>(() => controller.Delete(barbequeId, personId));
             serviceMock.Verify(s => s.Delete(
-                barbequeId, personId),
-                Times.Once,
-                "IPersonService.Create should be called once.");
+              barbequeId, personId),
+              Times.Once,
+              "IPersonService.Create should be called once.");
         }
     }
 }

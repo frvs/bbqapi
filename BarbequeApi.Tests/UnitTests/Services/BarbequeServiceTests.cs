@@ -27,14 +27,14 @@ namespace BarbequeApi.Tests.UnitTests
             var barbequeDto = new BarbequeDto
             {
                 Title = "Random name",
-                Date = new DateTime(2000, 1, 1), 
-                Notes = "some notes", 
+                Date = new DateTime(2000, 1, 1),
+                Notes = "some notes",
                 Persons = new List<PersonDto>
                 {
                     new PersonDto
                     {
-                        Name = "Random name 2", 
-                        BeverageMoneyShare = 10, 
+                        Name = "Random name 2",
+                        BeverageMoneyShare = 10,
                         FoodMoneyShare = 10
                     }
                 }
@@ -47,9 +47,9 @@ namespace BarbequeApi.Tests.UnitTests
 
             // Assert
             repositoryMock.Verify(
-                r => r.Save(It.IsAny<Barbeque>()), 
-                Times.Once, 
-                "IBarbequeRepository.Save should be called once.");
+              r => r.Save(It.IsAny<Barbeque>()),
+              Times.Once,
+              "IBarbequeRepository.Save should be called once.");
         }
 
         [Fact]
@@ -60,12 +60,12 @@ namespace BarbequeApi.Tests.UnitTests
             var expectedBarbeque = new BarbequeDto { Title = "example", Persons = new List<PersonDto>() };
 
             repositoryMock.Setup(r => r.Get(barbequeId)).Returns(
-                new Barbeque
-                {
-                    Id = barbequeId, 
-                    Title = "example", 
-                    Persons = new List<Person>()
-                });
+              new Barbeque
+              {
+                  Id = barbequeId,
+                  Title = "example",
+                  Persons = new List<Person>()
+              });
 
             // Act
             var barbeque = service.Get(barbequeId.ToString());
@@ -110,9 +110,9 @@ namespace BarbequeApi.Tests.UnitTests
 
             // Assert
             repositoryMock.Verify(
-                r => r.Save(It.IsAny<Barbeque>()),
-                Times.Once,
-                "IBarbequeRepository.Save should be called once.");
+              r => r.Save(It.IsAny<Barbeque>()),
+              Times.Once,
+              "IBarbequeRepository.Save should be called once.");
         }
 
         [Fact]
@@ -144,9 +144,9 @@ namespace BarbequeApi.Tests.UnitTests
             Assert.False(successful);
             Assert.Equal("500: Error in barbequeRepository.Save()", errorMessages.Last());
             repositoryMock.Verify(
-                r => r.Save(It.IsAny<Barbeque>()),
-                Times.Once,
-                "IBarbequeRepository.Save should be called once.");
+              r => r.Save(It.IsAny<Barbeque>()),
+              Times.Once,
+              "IBarbequeRepository.Save should be called once.");
         }
 
         [Fact]
@@ -173,9 +173,9 @@ namespace BarbequeApi.Tests.UnitTests
 
             // Assert
             repositoryMock.Verify(
-                r => r.Get(barbequeId),
-                Times.Once,
-                "IBarbequeRepository.Save should be called once.");
+              r => r.Get(barbequeId),
+              Times.Once,
+              "IBarbequeRepository.Save should be called once.");
         }
     }
 }

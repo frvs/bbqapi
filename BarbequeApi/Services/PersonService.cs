@@ -32,7 +32,7 @@ namespace BarbequeApi.Services
 
       var successfullyParsed = long.TryParse(barbequeIdString, out var barbequeId);
 
-      if(!successfullyParsed || barbequeId <= 0)
+      if (!successfullyParsed || barbequeId <= 0)
       {
         successful &= false;
         errorMessages.Add("400: BarbequeId should be a integer greater than zero.");
@@ -41,12 +41,12 @@ namespace BarbequeApi.Services
 
       var (isValidationSuccessful, validationMessages) = personValidator.Validate(personDto);
 
-      if(isValidationSuccessful)
+      if (isValidationSuccessful)
       {
         successful &= isValidationSuccessful;
         errorMessages.AddRange(validationMessages);
       }
-      
+
       if (!successful)
       {
         return (successful, errorMessages);
@@ -76,7 +76,7 @@ namespace BarbequeApi.Services
 
       var successfulDatabaseChanges = repository.Save(person);
 
-      if(!successfulDatabaseChanges)
+      if (!successfulDatabaseChanges)
       {
         successful &= successfulDatabaseChanges;
         errorMessages.Add("404: Error in PersonRepository.Save()");
@@ -105,7 +105,7 @@ namespace BarbequeApi.Services
         errorMessages.Add("400: BarbequeId should be a integer greater than zero.");
       }
 
-      if(!successful)
+      if (!successful)
       {
         return (successful, errorMessages);
       }

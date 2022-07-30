@@ -43,7 +43,7 @@ namespace BarbequeApi.Tests.UnitTests
             // Arrange
             var barbequeId = "1";
             serviceMock.Setup(s => s.Get(barbequeId)).Returns((new BarbequeDto(), new List<string>()));
-            
+
             // Act
             var response = await controller.Get(barbequeId);
 
@@ -57,14 +57,14 @@ namespace BarbequeApi.Tests.UnitTests
         public async Task CreateBarbequeFailure()
         {
             // TODO: refactor
-            
+
             // Arrange
             var barbequeDto = new BarbequeDto();
             serviceMock.Setup(s => s.Create(barbequeDto)).Throws(new Exception("random exception"));
 
             // Act
             Assert.ThrowsAsync<Exception>(() => controller.Create(barbequeDto));
-            
+
             serviceMock.Verify(s => s.Create(barbequeDto), Times.Once, "IBarbequeService.Create should be called once.");
         }
 

@@ -34,7 +34,7 @@ namespace BarbequeApi.Services
       }
 
       var barbeque = Translator.ToBarbeque(barbequeDto);
-      FillDefaultValues(barbeque); 
+      FillDefaultValues(barbeque);
 
       var successful = barbequeRepository.Save(barbeque);
 
@@ -51,7 +51,7 @@ namespace BarbequeApi.Services
       List<string> errorMessages = new();
 
       var successfullyParsed = long.TryParse(barbequeIdString, out var barbequeId);
-      if (!successfullyParsed || barbequeId <= 0) 
+      if (!successfullyParsed || barbequeId <= 0)
       {
         errorMessages.Add("400: BarbequeId should be a integer greater than zero.");
         return (null, errorMessages);

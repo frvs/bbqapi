@@ -22,7 +22,7 @@ namespace BarbequeApi.Controllers
     {
       var (successful, errorMessages) = service.Create(barbequeId, personDto);
 
-      if(!successful)
+      if (!successful)
       {
         switch (errorMessages.First()[..3])
         {
@@ -39,9 +39,9 @@ namespace BarbequeApi.Controllers
     {
       var (successful, errorMessages) = service.Delete(barbequeId, personId);
 
-      if(!successful)
+      if (!successful)
       {
-        switch(errorMessages.First()[..3])
+        switch (errorMessages.First()[..3])
         {
           case "400": return BadRequest(errorMessages);
           case "404": return NotFound(errorMessages);
