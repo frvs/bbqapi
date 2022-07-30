@@ -56,7 +56,7 @@ decidi por nao utilizar interfaces pros validators e foi bom pq poupou tempo nos
 (e ainda deu pra brincar com abstract class)
 os testes de unidade ajudaram bastante a achar pequenos bugs.
 
-- error handler no personservice, testes unitários dos servicos (fazer de person e revisar de barbeque),  teste unitário do dto (=>), 
+- error handler no personservice, testes unitários dos servicos (fazer de person e revisar de barbeque) => postergar,  teste unitário do dto (=>), 
 revisar namings, strings e geralzao (pq o indent=2 n funciona mais?). depois voltar pra => legibilidade e reaproveitamento), mudar a infra do banco
 
 # requisitos
