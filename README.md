@@ -61,7 +61,10 @@ revisar namings, strings e geralzao (pq o indent=2 n funciona mais?). depois vol
 
 - naming review
 barbeque => barbecue
-(deixar o banco shared entre os testes está os tornando intermitentes)
+(deixar o banco shared entre os testes está os tornando intermitentes) => resolvido
+queria mt colocar sqlserver/postgres mas daí precisaria de um aws/azure free tier. entre sqlite e inmemory, tanto faz, inmemory pela praticidade.
+acho que vou dar o teste como done hoje (sexta), sábado faço o front e domingo reviso os testes do back.
+fazer readme e notes.md no domingo também.
 
 # requisitos
 Incluir um novo churrasco com data, descrição e observações adicionais;  
