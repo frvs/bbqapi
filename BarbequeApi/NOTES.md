@@ -1,53 +1,53 @@
 # notes
 
-ol·! por aqui vou deixar o que eu fui anotando conforme o desenvolvimento  
-isso envolve pensamentos, decisıes tÈcnicas, tradeoffs e tudo mais.
-fiquem a vontade pra perguntar.
+ol√°! por aqui vou deixar o que eu fui anotando conforme o desenvolvimento  
+isso envolve pensamentos, decis√µes t√©cnicas, tradeoffs e tudo mais.  
+fiquem a vontade pra perguntar.  
 
-## decisoes tÈcnicas
-- cÛdigo e commits em inglÍs, docs e eventuais coment·rios (ser„o removidos atÈ o final) em pt-br    
--- n„o sei se quem vai revisar sabe/prefere em inglÍs a doc, por exemplo. eu preferia em inglÍs.  
+## decisoes t√©cnicas
+- c√≥digo e commits em ingl√™s, docs e eventuais coment√°rios (ser√£o removidos at√© o final) em pt-br    
+-- n√£o sei se quem vai revisar sabe/prefere em ingl√™s a doc, por exemplo. eu preferia em ingl√™s.  
 
 - comecei pelos models, mais especificamente Dtos  
-- depois (agora), vou comeÁar a doc e o tracking pelo Git  
+- depois (agora), vou come√ßar a doc e o tracking pelo Git  
 - ordem das entregas desejadas:  
-	* mvp sem testes, sem validaÁıes, sem infra, em csharp  
-	* mvp com testes, sem validaÁıes, sem infra, em csharp  
-	* mvp com testes, com validaÁıes, sem infra, em csharp  
-	* mvp com testes, com validaÁıes, com infra, em csharp  
-	* mvp sem testes, sem validaÁıes, sem infra, em fsharp  
-	... acho que j· deu pra perceber o fluxo das intenÁıes  
+	* mvp sem testes, sem valida√ß√µes, sem infra, em csharp  
+	* mvp com testes, sem valida√ß√µes, sem infra, em csharp  
+	* mvp com testes, com valida√ß√µes, sem infra, em csharp  
+	* mvp com testes, com valida√ß√µes, com infra, em csharp  
+	* mvp sem testes, sem valida√ß√µes, sem infra, em fsharp  
+	... acho que j√° deu pra perceber o fluxo das inten√ß√µes  
 	 
 - nao vou trabalhar com branches nesse repo. pra nao acharem que tenho maus costumes:
-nao gosto de master/main/prod + development + staging (multibranching) (muito trabalho, git flow È chato)
-gosto de uma branch pra prod + branches de desenvolvimento =) (github flow È massa)
+nao gosto de master/main/prod + development + staging (multibranching) (muito trabalho, git flow √© chato)
+gosto de uma branch pra prod + branches de desenvolvimento =) (github flow √© massa)
 
 - talvez eu tenha adicionado um pouco de overengineering nos Dtos, fazendo eles calcularem coisas pro front que
-nao precisavam MAS: eu sigo a ideia que o front tem que ser o mais r·pido possÌvel e o back tem que entregar as 
-coisas o mais mastigado possÌvel (pelo seu poder de performance). mais pra frente eu volto nessa decis„o e reviso
-(aqui me refiro as props q s„o lambdas =>)
+nao precisavam MAS: eu sigo a ideia que o front tem que ser o mais r√°pido poss√≠vel e o back tem que entregar as 
+coisas o mais mastigado poss√≠vel (pelo seu poder de performance). mais pra frente eu volto nessa decis√£o e reviso
+(aqui me refiro as props q s√£o lambdas =>)
 
-- nota mental: minimal api È horrÌvel.
+- nota mental: minimal api √© horr√≠vel.
 
-- È engraÁado que o cÛdigo de desafio tÈcnicos È sempre muito diferente de cÛdigo da vida real.
-sobre a divis„o de pastas, pra desafios tÈcnicos eu preferiria fazer tudo na controller, mas opto por services/repositories por passar uma impress„o melhor.
-em projetos reais, eu prefiro queries/commands nos repositÛrios (se necess·rio), pois acho a organizaÁ„o melhor (e escala melhor) =)
-... tambÈm, eu sempre fico em d˙vida: abusar de libs pra ir mais r·pido ou fazer tudo na m„o em desafios pq eu nao preciso de libs? 
-aqui, vou comeÁar fazendo as coisas na m„o (translators e validators).
+- √© engra√ßado que o c√≥digo de desafio t√©cnicos √© sempre muito diferente de c√≥digo da vida real.
+sobre a divis√£o de pastas, pra desafios t√©cnicos eu preferiria fazer tudo na controller, mas opto por services/repositories por passar uma impress√£o melhor.
+em projetos reais, eu prefiro queries/commands nos reposit√≥rios (se necess√°rio), pois acho a organiza√ß√£o melhor (e escala melhor) =)
+... tamb√©m, eu sempre fico em d√∫vida: abusar de libs pra ir mais r√°pido ou fazer tudo na m√£o em desafios pq eu nao preciso de libs? 
+aqui, vou come√ßar fazendo as coisas na m√£o (translators e validators).
 
-- nota: estou *tentando* deixar os commits organizados. o histÛrico poder· ser acompanhado por l·.
+- nota: estou *tentando* deixar os commits organizados. o hist√≥rico poder√° ser acompanhado por l√°.
 
 - estou optando pelo banco inmemory por enquanto. talvez depois eu coloque sqlserver num container ou algo assim.
 - efcore faz os relacionamentos 1:n automagicamente, ef6 precisa do onconfiguring
 
-- yay! terminei o mvp. nesse momento eu optei por n„o tratar os erros adequadamente, sÛ fazer funcionar.
-agora nas validacoes eu posso usar o fluent, flunt ou ir na m„o.
-pros testes, primeiro integraÁ„o e depois unidade.
-alÈm disso, est· no roadmap deploy (heroku ou azure) e trocar o banco de inmemory pra sqlite ou sqlserver
+- yay! terminei o mvp. nesse momento eu optei por n√£o tratar os erros adequadamente, s√≥ fazer funcionar.
+agora nas validacoes eu posso usar o fluent, flunt ou ir na m√£o.
+pros testes, primeiro integra√ß√£o e depois unidade.
+al√©m disso, est√° no roadmap deploy (heroku ou azure) e trocar o banco de inmemory pra sqlite ou sqlserver
 
-- fiz primeiro deploy, amanh„ faÁo os testes. terÁa validaÁıes e quarta troco o banco. ser·?
+- fiz primeiro deploy, amanh√£ fa√ßo os testes. ter√ßa valida√ß√µes e quarta troco o banco. ser√°?
 
-- prÛximos passos, em ordem: validaÁıes, refactoring de tudo (visando legibilidade e reaproveitamento), mudar a infra do banco (da app e de testes).
+- pr√≥ximos passos, em ordem: valida√ß√µes, refactoring de tudo (visando legibilidade e reaproveitamento), mudar a infra do banco (da app e de testes).
 depois, se der tempo, front e melhorias de infra (pensando aqui se vale a pena colocar isso no azure pra fazer algo mais 'requintado').
 btw apesar de gostar mt de TDD, nao estou utilizando. primeiro mudo a impl., depois o teste. =(
 
@@ -55,38 +55,38 @@ decidi por nao utilizar interfaces pros validators e foi bom pq poupou tempo nos
 (e ainda deu pra brincar com abstract class)
 os testes de unidade ajudaram bastante a achar pequenos bugs.
 
-- error handler no personservice, testes unit·rios dos servicos (fazer de person e revisar de barbeque) => postergar,  teste unit·rio do dto (=>) done, 
+- error handler no personservice, testes unit√°rios dos servicos (fazer de person e revisar de barbeque) => postergar,  teste unit√°rio do dto (=>) done, 
 revisar namings, strings e geralzao (pq o indent=2 n funciona mais?). depois voltar pra => legibilidade e reaproveitamento), mudar a infra do banco
 
 - naming review
 barbeque => barbecue?
-(deixar o banco shared entre os testes est· os tornando intermitentes) => resolvido
-queria mt colocar sqlserver/postgres mas daÌ precisaria de um aws/azure free tier. entre sqlite e inmemory, tanto faz, inmemory pela praticidade.
-acho que vou dar o teste como done hoje (sexta), s·bado faÁo o front e domingo reviso os testes do back.
-fazer readme e notes.md no domingo tambÈm (feito)
+(deixar o banco shared entre os testes est√° os tornando intermitentes) => resolvido
+queria mt colocar sqlserver/postgres mas da√≠ precisaria de um aws/azure free tier. entre sqlite e inmemory, tanto faz, inmemory pela praticidade.
+acho que vou dar o teste como done hoje (sexta), s√°bado fa√ßo o front e domingo reviso os testes do back.
+fazer readme e notes.md no domingo tamb√©m (feito)
 redirect de /  pra /swagger (feito)
 spaces de 4 pra 2, fazer pelo vscode
 
 - acabou que nao tive sabado ou domingo pra mexer no teste.  
-o tempo que eu tive foi: de 20/07 a 31/07, 11 dias. desses 11 dias, eu sÛ programei em 4 de fato (e no perÌodo da noite), devido a trabalho corrido e compromissos pessoais.
+o tempo que eu tive foi: de 20/07 a 31/07, 11 dias. desses 11 dias, eu s√≥ programei em 4 de fato (e no per√≠odo da noite), devido a trabalho corrido e compromissos pessoais.
 queria ter entregado mais mas hoje (01/08), vou fazer uns ajustes finais e enviar.
 vou ficar devendo coisas como: migrations, alguns endpoints extras, infra em sqlserver, infra em provider famoso (aws/azure) com pipeline, fazer um front em vanilla js ou react/next, enfim...  
-ah, e acabei de notar que os testes de unidade de serviÁo n„o foram finalizados. sorry : (  
+ah, e acabei de notar que os testes de unidade de servi√ßo n√£o foram finalizados. sorry : (  
 espero que gostem.  
 
 ## outros
 
-Colocar um valor sugerido por usu·rio de contribuiÁ„o (valor com e sem bebida inclusa); - ?  
-- h· um valor de comida e um valor de bebida na hora de adicionar uma pessoa no churrasco  
+Colocar um valor sugerido por usu√°rio de contribui√ß√£o (valor com e sem bebida inclusa); - ?  
+- h√° um valor de comida e um valor de bebida na hora de adicionar uma pessoa no churrasco  
 - a pessoa a ser adicionada deve escolher se vai pagar somente comida, somente bebida ou ambos (e quanto)  
-- o valor sugerido pode ser algo hard-coded (fixo) (ou pode ser uma mÈdia...)  
+- o valor sugerido pode ser algo hard-coded (fixo) (ou pode ser uma m√©dia...)  
 pela simplicidade:  
-nao precisamos do toggle, e podemos ter as duas formas de 'prediction' do valor caso n„o informado 
+nao precisamos do toggle, e podemos ter as duas formas de 'prediction' do valor caso n√£o informado   
 
 ## code review
 
-prediction de valores? desfeito
-haspaid pra person? nao sei se precisa. adicionar? se sobrar tempo
-teste pro dtos => fazer
-pegar todos os churrascos? tela de login? se n„o achar nada pra fazer hoje(qui) e amanh„, faÁo.
-esperam o front? se houver tempo suficiente, faÁo no final de semana. e em vanilla js.
+prediction de valores? desfeito  
+haspaid pra person? nao sei se precisa. adicionar? se sobrar tempo  
+teste pro dtos => fazer  
+pegar todos os churrascos? tela de login? se n√£o achar nada pra fazer hoje(qui) e amanh√£, fa√ßo.  
+esperam o front? se houver tempo suficiente, fa√ßo no final de semana. e em vanilla js.  
