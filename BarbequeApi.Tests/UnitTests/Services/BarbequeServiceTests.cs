@@ -43,9 +43,11 @@ namespace BarbequeApi.Tests.UnitTests
             repositoryMock.Setup(r => r.Save(It.IsAny<Barbeque>())).Returns(true);
 
             // Act
-            service.Create(barbequeDto);
+            var (successful, errorMessages) = service.Create(barbequeDto);
 
             // Assert
+            Assert.True(successful);
+            Assert.Empty(errorMessages);
             repositoryMock.Verify(
               r => r.Save(It.IsAny<Barbeque>()),
               Times.Once,
@@ -68,17 +70,19 @@ namespace BarbequeApi.Tests.UnitTests
               });
 
             // Act
-            var barbeque = service.Get(barbequeId.ToString());
+            var (barbeque, errorMessages) = service.Get(barbequeId.ToString());
 
             // Assert
-            Assert.Equal(barbequeId, barbeque.Item1.Id);
-            Assert.Equal(expectedBarbeque.Title, barbeque.Item1.Title);
-            Assert.Equal(expectedBarbeque.Persons.Count, barbeque.Item1.Persons.Count);
+            Assert.NotNull(barbeque);
+            Assert.Empty(errorMessages);
+            Assert.Equal(barbequeId, barbeque.Id);
+            Assert.Equal(expectedBarbeque.Title, barbeque.Title);
+            Assert.Equal(expectedBarbeque.Persons.Count, barbeque.Persons.Count);
             repositoryMock.Verify(r => r.Get(barbequeId), Times.Once, "IBarbequeRepository.Get should be called once.");
         }
 
         [Fact]
-        public async Task CreateBarbequeFailure() // falta um teste pro translator?
+        public async Task CreateBarbequeFailure() // translator test?
         {
 
         }
@@ -150,7 +154,7 @@ namespace BarbequeApi.Tests.UnitTests
         }
 
         [Fact]
-        public async Task GetBarbequeFailure() // erro pra id <=0, pra erro no db, pro db retornando null e pro translator
+        public async Task GetBarbequeFailure() // error for id <=0, db error (null or exception) and translator
         {
 
         }

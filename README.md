@@ -57,3 +57,7 @@ dica: ```git checkout [commitId]``` para atualizar o código para o estado deseja
 - ```b4a67495bfe8c02591ff74b052b29bd04a0101c4``` yay! finishing mvp api: terminei o mvp. sem muita coisa mas aqui o básico tava feito
 - ```a6657c83b6d62092e8d904a3a47ed208fb6238eb``` fix integration tests for person: nesse ponto os testes de integração estavam feitos
 - ```36f7ffd9f934d5b84b6877a3caaebd792c056fd3``` add notification pattern: melhorei as validações e coloquei o notification pattern. aqui todos os testes (unit/integration) tavam bons.
+
+## mais infos de review
+eu fiz um diário de bordo em NOTES.md.  
+fiquem a vontade pra dar uma lida.

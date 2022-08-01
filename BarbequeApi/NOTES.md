@@ -59,13 +59,20 @@ os testes de unidade ajudaram bastante a achar pequenos bugs.
 revisar namings, strings e geralzao (pq o indent=2 n funciona mais?). depois voltar pra => legibilidade e reaproveitamento), mudar a infra do banco
 
 - naming review
-barbeque => barbecue
+barbeque => barbecue?
 (deixar o banco shared entre os testes está os tornando intermitentes) => resolvido
 queria mt colocar sqlserver/postgres mas daí precisaria de um aws/azure free tier. entre sqlite e inmemory, tanto faz, inmemory pela praticidade.
 acho que vou dar o teste como done hoje (sexta), sábado faço o front e domingo reviso os testes do back.
 fazer readme e notes.md no domingo também (feito)
 redirect de /  pra /swagger (feito)
 spaces de 4 pra 2, fazer pelo vscode
+
+- acabou que nao tive sabado ou domingo pra mexer no teste.  
+o tempo que eu tive foi: de 20/07 a 31/07, 11 dias. desses 11 dias, eu só programei em 4 de fato (e no período da noite), devido a trabalho corrido e compromissos pessoais.
+queria ter entregado mais mas hoje (01/08), vou fazer uns ajustes finais e enviar.
+vou ficar devendo coisas como: migrations, alguns endpoints extras, infra em sqlserver, infra em provider famoso (aws/azure) com pipeline, fazer um front em vanilla js ou react/next, enfim...  
+ah, e acabei de notar que os testes de unidade de serviço não foram finalizados. sorry : (  
+espero que gostem.  
 
 ## outros
 

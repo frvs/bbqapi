@@ -77,30 +77,30 @@ namespace BarbequeApi.Tests.IntegrationTests
             // Assert
             Assert.Equal(HttpStatusCode.NoContent, statusCode);
             var dbContext = factory.GetDbContext();
-            var actualBarbeque = dbContext.Barbeques.Include(b => b.Persons)
+            var barbequeFromDb = dbContext.Barbeques.Include(b => b.Persons)
               .FirstOrDefault(barbeque => barbeque.Title == bbqTitle);
 
-            Assert.NotNull(actualBarbeque);
-            Assert.NotEqual(0, actualBarbeque.Id);
+            Assert.NotNull(barbequeFromDb);
+            Assert.NotEqual(0, barbequeFromDb.Id);
 
             var expectedBarbeque = Translator.ToBarbeque(barbequeDto);
             foreach (var person in expectedBarbeque.Persons)
             {
-                person.BarbequeId = actualBarbeque.Id;
+                person.BarbequeId = barbequeFromDb.Id;
             }
 
-            AssertExpectedBarbequeEqualsToSaved(expectedBarbeque, Translator.ToBarbequeDto(actualBarbeque));
+            AssertExpectedBarbequeEqualsToSaved(expectedBarbeque, Translator.ToBarbequeDto(barbequeFromDb));
         }
 
         [Fact]
         public async Task CreateBarbequeWithTwoPersonsSuccess()
         {
             // Arrange
-            var bbqTitle = "Churrasco de teste com duas pessoas";
+            var barbequeTitle = "Churrasco de teste com duas pessoas";
 
             var barbequeDto = new BarbequeDto
             {
-                Title = bbqTitle,
+                Title = barbequeTitle,
                 Date = new DateTime(2000, 1, 1),
                 Notes = "algumas notas mais aleatorias",
                 Persons = new List<PersonDto>
@@ -127,7 +127,7 @@ namespace BarbequeApi.Tests.IntegrationTests
             Assert.Equal(HttpStatusCode.NoContent, statusCode);
             var dbContext = factory.GetDbContext();
             var actualBarbeque = dbContext.Barbeques.Include(b => b.Persons)
-              .FirstOrDefault(barbeque => barbeque.Title == bbqTitle);
+              .FirstOrDefault(barbeque => barbeque.Title == barbequeTitle);
 
             Assert.NotNull(actualBarbeque);
             Assert.NotEqual(0, actualBarbeque.Id);
