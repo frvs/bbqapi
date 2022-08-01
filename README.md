@@ -1,7 +1,7 @@
 # bbqapi
-ol·! eu sou o lucas, estou fazendo uma api pra empresa trincada mais legal do paÌs.  
-vou documentando aqui o pensamento, as decisıes e tudo mais que eu achar relevante.  
-fiquem ‡ vontade (quem for revisar) pra ler e questionar tudo.  
+ol√°! eu sou o lucas, estou fazendo uma api pra empresa trincada mais legal do pa√≠s.  
+vou documentando aqui o pensamento, as decis√µes e tudo mais que eu achar relevante.  
+fiquem √† vontade (quem for revisar) pra ler e questionar tudo.  
 
 link do swagger: https://bbqapi.herokuapp.com/swagger/index.html \o/  
 
@@ -13,7 +13,7 @@ link do swagger: https://bbqapi.herokuapp.com/swagger/index.html \o/
 - editor como visual studio ou vscode para debugging ou review
 
 ## como rodar
-a aplicaÁ„o localmente
+a aplica√ß√£o localmente
 - ```git clone https://github.com/frvs/bbqapi.git```
 - ```cd bbqapi/BarbequeApi```
 - ```dotnet restore```
@@ -29,10 +29,10 @@ os testes
 - ```dotnet test```
 
 ## requisitos de desenvolvimento
-Incluir um novo churrasco com data, descriÁ„o e observaÁıes adicionais;  
-Adicionar e remover participantes (colocando o seu valor de contribuiÁ„o);  
+Incluir um novo churrasco com data, descri√ß√£o e observa√ß√µes adicionais;  
+Adicionar e remover participantes (colocando o seu valor de contribui√ß√£o);  
 Visualizar os detalhes do churrasco, total de participantes e valor arrecadado;  
-Colocar um valor sugerido por usu·rio de contribuiÁ„o (valor com e sem bebida inclusa;
+Colocar um valor sugerido por usu√°rio de contribui√ß√£o (valor com e sem bebida inclusa;
 
 ## modelos 
 
@@ -51,13 +51,13 @@ DELETE api/barbeques/{barbequeId}/persons/{personId}
 ```
 
 ## principais commits pra revisar
-dica: ```git checkout [commitId]``` para atualizar o cÛdigo para o estado desejado
-- ```734920eb756dea22fbcff1358a0fbdc2e5a0c4d9``` initial commit: criei a estrutura b·sica de pastas 
-- ```f5b248ff32a3d7f49a29b0ba54db9750cc2ff707``` adding services to barbeque controller: lÛgica b·sica nos services/repositories 
-- ```b4a67495bfe8c02591ff74b052b29bd04a0101c4``` yay! finishing mvp api: terminei o mvp. sem muita coisa mas aqui o b·sico tava feito
-- ```a6657c83b6d62092e8d904a3a47ed208fb6238eb``` fix integration tests for person: nesse ponto os testes de integraÁ„o estavam feitos
-- ```36f7ffd9f934d5b84b6877a3caaebd792c056fd3``` add notification pattern: melhorei as validaÁıes e coloquei o notification pattern. aqui todos os testes (unit/integration) tavam bons.
+dica: ```git checkout [commitId]``` para atualizar o c√≥digo para o estado desejado
+- ```734920eb756dea22fbcff1358a0fbdc2e5a0c4d9``` initial commit: criei a estrutura b√°sica de pastas 
+- ```f5b248ff32a3d7f49a29b0ba54db9750cc2ff707``` adding services to barbeque controller: l√≥gica b√°sica nos services/repositories 
+- ```b4a67495bfe8c02591ff74b052b29bd04a0101c4``` yay! finishing mvp api: terminei o mvp. sem muita coisa mas aqui o b√°sico tava feito
+- ```a6657c83b6d62092e8d904a3a47ed208fb6238eb``` fix integration tests for person: nesse ponto os testes de integra√ß√£o estavam feitos
+- ```36f7ffd9f934d5b84b6877a3caaebd792c056fd3``` add notification pattern: melhorei as valida√ß√µes e coloquei o notification pattern. aqui todos os testes (unit/integration) tavam bons.
 
 ## mais infos de review
-eu fiz um di·rio de bordo em NOTES.md.  
+eu fiz um di√°rio de bordo em BarbequeApi/NOTES.md
 fiquem a vontade pra dar uma lida.
